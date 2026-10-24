@@ -1,6 +1,5 @@
-import logger from "electron-log";
+import logger from "electron-log/renderer";
 
-import { readFile } from "../../files/fileAccess";
 import { parseDayOneJson, parseJrnlJson, parseMiniDiaryJson } from "../../files/import/json";
 import { parseDayOneTxt } from "../../files/import/txt";
 import { ImportFormat } from "../../types";
@@ -52,37 +51,34 @@ export function setImportFormat(importFormat: ImportFormat): SetImportFormatActi
 
 // Thunks
 
-export const runImport = (importFilePath: string): ThunkActionT => (dispatch, getState): void => {
-	const { importFormat } = getState().import;
+export const runImport =
+	(fileContent: string): ThunkActionT =>
+	(dispatch, getState): void => {
+		const { importFormat } = getState().import;
 
-	dispatch(setImportInProgress());
-	try {
-		const fileContent = readFile(importFilePath);
-		if (fileContent instanceof Buffer) {
-			throw Error("Import file cannot be binary");
+		dispatch(setImportInProgress());
+		try {
+			// Get parser function for import format
+			let parseFunc;
+			if (importFormat === "jsonDayOne") {
+				parseFunc = parseDayOneJson;
+			} else if (importFormat === "jsonJrnl") {
+				parseFunc = parseJrnlJson;
+			} else if (importFormat === "jsonMiniDiary") {
+				parseFunc = parseMiniDiaryJson;
+			} else if (importFormat === "txtDayOne") {
+				parseFunc = parseDayOneTxt;
+			} else {
+				throw Error(`Unrecognized importFormat "${importFormat}"`);
+			}
+
+			// Parse file and make it compatible with Mini Diary
+			const json = parseFunc(fileContent);
+			dispatch(mergeUpdateFile(json));
+			dispatch(setImportSuccess());
+			dispatch(closeOverlay());
+		} catch (err) {
+			logger.error("Error importing diary file: ", err);
+			dispatch(setImportError(String(err)));
 		}
-
-		// Get parser function for import format
-		let parseFunc;
-		if (importFormat === "jsonDayOne") {
-			parseFunc = parseDayOneJson;
-		} else if (importFormat === "jsonJrnl") {
-			parseFunc = parseJrnlJson;
-		} else if (importFormat === "jsonMiniDiary") {
-			parseFunc = parseMiniDiaryJson;
-		} else if (importFormat === "txtDayOne") {
-			parseFunc = parseDayOneTxt;
-		} else {
-			throw Error(`Unrecognized importFormat "${importFormat}"`);
-		}
-
-		// Parse file and make it compatible with Mini Diary
-		const json = parseFunc(fileContent);
-		dispatch(mergeUpdateFile(json));
-		dispatch(setImportSuccess());
-		dispatch(closeOverlay());
-	} catch (err) {
-		logger.error("Error importing diary file: ", err);
-		dispatch(setImportError(err.toString()));
-	}
-};
+	};

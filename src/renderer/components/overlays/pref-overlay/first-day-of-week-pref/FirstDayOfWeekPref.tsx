@@ -3,7 +3,15 @@ import React, { ChangeEvent, ReactElement } from "react";
 import { Weekday } from "../../../../types";
 import { translations } from "../../../../utils/i18n";
 
-const WEEKDAY_IDS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+const WEEKDAY_IDS = [
+	"sunday",
+	"monday",
+	"tuesday",
+	"wednesday",
+	"thursday",
+	"friday",
+	"saturday",
+] as const;
 
 export interface StateProps {
 	firstDayOfWeek: Weekday | null;

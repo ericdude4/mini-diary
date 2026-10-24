@@ -5,7 +5,7 @@ import {
 	loadThemePref,
 	loadHideTitlesPref,
 } from "../../files/preferences/preferences";
-import { getThemeFromPref } from "../../utils/native-theme";
+import { getThemeFromPref } from "../../utils/theme";
 import {
 	AppAction,
 	AppState,

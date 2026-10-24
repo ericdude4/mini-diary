@@ -9,7 +9,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatchT): DispatchProps => ({
-	resetDiary: (): void => dispatch(resetDiary()),
+	resetDiary: (): Promise<void> => dispatch(resetDiary()),
 	testFileExists: (): void => dispatch(testFileExists()),
 });
 

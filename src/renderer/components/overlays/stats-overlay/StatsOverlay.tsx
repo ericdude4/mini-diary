@@ -24,7 +24,7 @@ interface Stats {
 	avgWordsPerEntry: number;
 }
 
-export default class StatsOverlay extends PureComponent<Props, {}> {
+export default class StatsOverlay extends PureComponent<Props> {
 	/**
 	 * Return a string representation of the provided number, with thousands separators and at most
 	 * one digit after the decimal point

@@ -1,23 +1,20 @@
-// Style reset
-@import "../../../../node_modules/minireset.css/minireset.min.css";
-
 // Base
-@import "base/variables";
-@import "base/mixins";
-@import "base/text";
+@use "base/variables";
+@use "base/mixins";
+@use "base/text";
 
 // Elements
-@import "elements/form";
-@import "elements/input";
-@import "elements/scrollbar";
+@use "elements/form";
+@use "elements/input";
+@use "elements/scrollbar";
 
 // Components
-@import "components/app";
-@import "components/banner";
-@import "components/calendar";
-@import "components/diary";
-@import "components/editor";
-@import "components/overlay";
-@import "components/page-centered";
-@import "components/password-views";
-@import "components/search";
+@use "components/app";
+@use "components/banner";
+@use "components/calendar";
+@use "components/diary";
+@use "components/editor";
+@use "components/overlay";
+@use "components/page-centered";
+@use "components/password-views";
+@use "components/search";

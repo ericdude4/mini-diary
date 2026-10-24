@@ -10,7 +10,7 @@ export interface StateProps {
 
 type Props = StateProps;
 
-export default class Sidebar extends PureComponent<Props, {}> {
+export default class Sidebar extends PureComponent<Props> {
 	render(): ReactNode {
 		const { searchKey } = this.props;
 		return (

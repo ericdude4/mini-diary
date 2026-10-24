@@ -1,4 +1,4 @@
-import ClearIcon from "feather-icons/dist/icons/x.svg";
+import ClearIcon from "feather-icons/dist/icons/x.svg?react";
 import React, { PureComponent, ReactNode } from "react";
 
 import { translations } from "../../../utils/i18n";
@@ -15,8 +15,8 @@ export interface CustomProps {
 
 type Props = DispatchProps & CustomProps;
 
-export default class Overlay extends PureComponent<Props, {}> {
-	overlayElement: HTMLDivElement;
+export default class Overlay extends PureComponent<Props> {
+	overlayElement: HTMLDivElement | null = null;
 
 	constructor(props: Props) {
 		super(props);
@@ -43,7 +43,6 @@ export default class Overlay extends PureComponent<Props, {}> {
 	onClick(e: MouseEvent): void {
 		let targetElement = e.target as Node; // Clicked element
 
-		/* eslint-disable-next-line no-constant-condition */
 		while (true) {
 			if (targetElement === this.overlayElement) {
 				// Click inside overlay: Exit
@@ -82,7 +81,7 @@ export default class Overlay extends PureComponent<Props, {}> {
 			<div className="overlay-outer">
 				<div
 					className={`overlay-inner ${className || ""}`}
-					ref={(overlayElement: HTMLDivElement): void => {
+					ref={(overlayElement: HTMLDivElement | null): void => {
 						this.overlayElement = overlayElement;
 					}}
 				>

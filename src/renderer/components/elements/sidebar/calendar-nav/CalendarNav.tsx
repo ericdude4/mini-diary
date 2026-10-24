@@ -1,5 +1,5 @@
-import PrevIcon from "feather-icons/dist/icons/chevron-left.svg";
-import NextIcon from "feather-icons/dist/icons/chevron-right.svg";
+import PrevIcon from "feather-icons/dist/icons/chevron-left.svg?react";
+import NextIcon from "feather-icons/dist/icons/chevron-right.svg?react";
 import { Moment } from "moment-timezone";
 import React, { ReactElement } from "react";
 
@@ -21,12 +21,8 @@ export interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 export default function CalendarNav(props: Props): ReactElement {
-	const {
-		allowFutureEntries,
-		dateSelected,
-		setMonthSelectedNext,
-		setMonthSelectedPrevious,
-	} = props;
+	const { allowFutureEntries, dateSelected, setMonthSelectedNext, setMonthSelectedPrevious } =
+		props;
 
 	const today = createDate();
 

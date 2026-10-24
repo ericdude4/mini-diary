@@ -1,7 +1,3 @@
-import { ipcRenderer, remote } from "electron";
-
-import { darkMode, is } from "electron-util";
-
 import { OverlayType } from "../../../shared/types";
 import { openOverlay, setTheme } from "../../store/app/actionCreators";
 import {
@@ -26,91 +22,85 @@ const dispatchThunk = store.dispatch as ThunkDispatchT;
 export default function initIpcListeners(): void {
 	// Date
 
-	ipcRenderer.on("nextDay", (): void => {
+	window.api.on("nextDay", (): void => {
 		dispatchThunk(setDaySelectedNext());
 	});
 
-	ipcRenderer.on("previousDay", (): void => {
+	window.api.on("previousDay", (): void => {
 		dispatchThunk(setDaySelectedPrevious());
 	});
 
-	ipcRenderer.on("goToToday", (): void => {
+	window.api.on("goToToday", (): void => {
 		dispatchThunk(setDaySelectedToday());
 	});
 
-	ipcRenderer.on("nextMonth", (): void => {
+	window.api.on("nextMonth", (): void => {
 		dispatchThunk(setMonthSelectedNext());
 	});
 
-	ipcRenderer.on("previousMonth", (): void => {
+	window.api.on("previousMonth", (): void => {
 		dispatchThunk(setMonthSelectedPrevious());
 	});
 
 	// Export
 
-	ipcRenderer.on("exportJsonMiniDiary", (): void => {
+	window.api.on("exportJsonMiniDiary", (): void => {
 		dispatchThunk(exportToJsonMiniDiary());
 	});
 
-	ipcRenderer.on("exportMd", (): void => {
+	window.api.on("exportMd", (): void => {
 		dispatchThunk(exportToMd());
 	});
 
-	ipcRenderer.on("exportPdf", (): void => {
+	window.api.on("exportPdf", (): void => {
 		dispatchThunk(exportToPdf());
 	});
 
-	ipcRenderer.on("exportTxtDayOne", (): void => {
+	window.api.on("exportTxtDayOne", (): void => {
 		dispatchThunk(exportToTxtDayOne());
 	});
 
 	// Import
 
-	ipcRenderer.on("importJsonDayOne", (): void => {
+	window.api.on("importJsonDayOne", (): void => {
 		dispatchThunk(setImportFormat("jsonDayOne"));
 		dispatchThunk(openOverlay("import"));
 	});
 
-	ipcRenderer.on("importJsonJrnl", (): void => {
+	window.api.on("importJsonJrnl", (): void => {
 		dispatchThunk(setImportFormat("jsonJrnl"));
 		dispatchThunk(openOverlay("import"));
 	});
 
-	ipcRenderer.on("importJsonMiniDiary", (): void => {
+	window.api.on("importJsonMiniDiary", (): void => {
 		dispatchThunk(setImportFormat("jsonMiniDiary"));
 		dispatchThunk(openOverlay("import"));
 	});
 
-	ipcRenderer.on("importTxtDayOne", (): void => {
+	window.api.on("importTxtDayOne", (): void => {
 		dispatchThunk(setImportFormat("txtDayOne"));
 		dispatchThunk(openOverlay("import"));
 	});
 
-	// Lock
+	// Lock (e.g. from the menu or when the screen is locked)
 
-	ipcRenderer.on("lock", (): void => {
+	window.api.on("lock", (): void => {
 		dispatchThunk(lock());
 	});
 
 	// Overlays
 
-	ipcRenderer.on("openOverlay", (_, overlayType: OverlayType): void => {
+	window.api.on("openOverlay", (overlayType: OverlayType): void => {
 		dispatchThunk(openOverlay(overlayType));
 	});
 
-	// Screen lock
-	// Lock diary when screen is locked
-
-	if (is.macos || is.windows) {
-		remote.powerMonitor.on("lock-screen", (): void => {
-			dispatchThunk(lock());
-		});
-	}
-
 	// Theme
-	// Listen to system theme changes and update the app theme accordingly
+	// Listen to system theme changes and update the app theme accordingly (if the theme preference is
+	// set to "auto")
 
-	darkMode.onChange((): void => {
-		dispatchThunk(setTheme(darkMode.isEnabled ? "dark" : "light"));
+	window.api.on("themeUpdated", (isDark: boolean): void => {
+		if (store.getState().app.themePref === "auto") {
+			dispatchThunk(setTheme(isDark ? "dark" : "light"));
+		}
 	});
 }

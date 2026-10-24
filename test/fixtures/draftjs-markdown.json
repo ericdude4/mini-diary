@@ -1,0 +1,24 @@
+{
+	"_comment": "Markdown written by Mini Diary <= 3.3.0 (Draft.js editor + markdown-draft-js 2.2.0)",
+	"entries": {
+		"twoParas": "Hello world\n\nSecond para",
+		"blankLines": "A\n\nB",
+		"softBreak": "line one\nline two",
+		"bold": "some **bold** text",
+		"italic": "some _italic_ text",
+		"boldItalic": "x **_both_** y",
+		"boldTrailingSpace": "a **bold** b",
+		"ul": "intro\n\n- one\n- two\n\noutro",
+		"ol": "1. one\n2. two",
+		"nested": "- one\n    - sub\n- two",
+		"nestedOl": "1. one\n    1. sub\n2. two",
+		"specialChars": "2 * 3 = 6 and a_b_c and # not heading\n\n\\# looks like heading\n\n- looks like list\n\n1. looks like ol",
+		"stars": "**not bold**",
+		"unicode": "Grüße 你好 🎉 — “quotes”",
+		"leadingSpaces": "indented code?",
+		"separator": "old\n\n––––––––––\n\nnew",
+		"url": "see https://example.com/a_b_c",
+		"angle": "<b>html</b> & stuff",
+		"backslash": "C:\\path\\to"
+	}
+}

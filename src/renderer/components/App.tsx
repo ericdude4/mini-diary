@@ -1,9 +1,7 @@
-import { remote } from "electron";
-
 import React, { Component, ReactNode } from "react";
 
 import { OverlayType } from "../../shared/types";
-import { toggleWindowSize } from "../electron/window";
+import { toggleWindowSize } from "../electron/ipcRenderer/senders";
 import { Status, Theme } from "../types";
 import { translations } from "../utils/i18n";
 import GoToDateOverlayContainer from "./overlays/go-to-date-overlay/GoToDateOverlayContainer";
@@ -74,6 +72,8 @@ export default class App extends Component<Props, State> {
 		const { testFileExists } = this.props;
 
 		testFileExists();
+		// Show the "Loading…" message until the diary file has been looked up
+		// eslint-disable-next-line @eslint-react/no-set-state-in-component-did-mount
 		this.setState({
 			isLoading: false,
 		});
@@ -84,7 +84,7 @@ export default class App extends Component<Props, State> {
 
 		// Check for export error and display it if there is one
 		if (exportErrorMsg && exportErrorMsg !== prevProps.exportErrorMsg) {
-			remote.dialog.showErrorBox(
+			window.api.dialog.showErrorBox(
 				translations["export-error-title"],
 				`${translations["export-error-msg"]}: ${exportErrorMsg}`,
 			);
@@ -92,7 +92,7 @@ export default class App extends Component<Props, State> {
 
 		// Check for import error and display it if there is one
 		if (importErrorMsg && importErrorMsg !== prevProps.importErrorMsg) {
-			remote.dialog.showErrorBox(
+			window.api.dialog.showErrorBox(
 				translations["import-error-title"],
 				`${translations["import-error-msg"]}: ${importErrorMsg}`,
 			);
@@ -138,7 +138,7 @@ export default class App extends Component<Props, State> {
 		const overlayComp = App.createOverlayComp(overlay);
 
 		return (
-			<ThemeContext.Provider value={theme}>
+			<ThemeContext value={theme}>
 				{/* Everything below the "theme-*" div can be styled based on the theme */}
 				<div className={`theme-${theme}`}>
 					<div className="app">
@@ -150,7 +150,7 @@ export default class App extends Component<Props, State> {
 						}
 					</div>
 				</div>
-			</ThemeContext.Provider>
+			</ThemeContext>
 		);
 	}
 }

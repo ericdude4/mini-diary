@@ -18,35 +18,40 @@ import buildEntries from "./buildEntries";
 export function parseDayOneJson(jsonStr: string): Entries {
 	const parsedEntries: DayOneJson = JSON.parse(jsonStr);
 
-	return buildEntries(parsedEntries.entries, (parsedEntry: ImportEntry): {
-		indexDate: string;
-		entry: DiaryEntry;
-	} => {
-		const parsedEntryCast = parsedEntry as DayOneEntry;
-		const { creationDate, modifiedDate, text: titleAndText } = parsedEntryCast;
-		const indexDate = toIndexDate(creationDate);
-		const dateUpdated = parseDate(modifiedDate).toString();
+	return buildEntries(
+		parsedEntries.entries,
+		(
+			parsedEntry: ImportEntry,
+		): {
+			indexDate: string;
+			entry: DiaryEntry;
+		} => {
+			const parsedEntryCast = parsedEntry as DayOneEntry;
+			const { creationDate, modifiedDate, text: titleAndText } = parsedEntryCast;
+			const indexDate = toIndexDate(creationDate);
+			const dateUpdated = parseDate(modifiedDate).toString();
 
-		// Split title and text (if exists)
-		let title;
-		let text;
-		const endOfTitlePos = titleAndText.indexOf("\n\n");
-		if (endOfTitlePos <= 0) {
-			title = titleAndText;
-			text = "";
-		} else {
-			title = titleAndText.substring(0, endOfTitlePos);
-			text = titleAndText.substring(endOfTitlePos + 2);
-		}
+			// Split title and text (if exists)
+			let title;
+			let text;
+			const endOfTitlePos = titleAndText.indexOf("\n\n");
+			if (endOfTitlePos <= 0) {
+				title = titleAndText;
+				text = "";
+			} else {
+				title = titleAndText.substring(0, endOfTitlePos);
+				text = titleAndText.substring(endOfTitlePos + 2);
+			}
 
-		// Remove heading formatting from title
-		if (title.startsWith("# ")) {
-			title = title.substring(2);
-		}
+			// Remove heading formatting from title
+			if (title.startsWith("# ")) {
+				title = title.substring(2);
+			}
 
-		const entry = { dateUpdated, title, text };
-		return { indexDate, entry };
-	});
+			const entry = { dateUpdated, title, text };
+			return { indexDate, entry };
+		},
+	);
 }
 
 /**
@@ -56,16 +61,21 @@ export function parseJrnlJson(jsonStr: string): Entries {
 	const parsedEntries: JrnlJson = JSON.parse(jsonStr);
 	const now = createDate().toString();
 
-	return buildEntries(parsedEntries.entries, (parsedEntry: ImportEntry): {
-		indexDate: string;
-		entry: DiaryEntry;
-	} => {
-		const parsedEntryCast = parsedEntry as JrnlEntry;
-		const { date: indexDate, title, body } = parsedEntryCast;
+	return buildEntries(
+		parsedEntries.entries,
+		(
+			parsedEntry: ImportEntry,
+		): {
+			indexDate: string;
+			entry: DiaryEntry;
+		} => {
+			const parsedEntryCast = parsedEntry as JrnlEntry;
+			const { date: indexDate, title, body } = parsedEntryCast;
 
-		const entry = { dateUpdated: now, title: title.trim(), text: body.trim() };
-		return { indexDate, entry };
-	});
+			const entry = { dateUpdated: now, title: title.trim(), text: body.trim() };
+			return { indexDate, entry };
+		},
+	);
 }
 
 /**
@@ -78,20 +88,25 @@ export function parseMiniDiaryJson(jsonStr: string): Entries {
 	);
 	const now = createDate().toString();
 
-	return buildEntries(parsedEntries, (parsedEntry: ImportEntry): {
-		indexDate: string;
-		entry: DiaryEntry;
-	} => {
-		const parsedEntryCast = parsedEntry as ListDiaryEntry;
-		const { indexDate, text, title } = parsedEntryCast;
+	return buildEntries(
+		parsedEntries,
+		(
+			parsedEntry: ImportEntry,
+		): {
+			indexDate: string;
+			entry: DiaryEntry;
+		} => {
+			const parsedEntryCast = parsedEntry as ListDiaryEntry;
+			const { indexDate, text, title } = parsedEntryCast;
 
-		// Use dateUpdated if defined, otherwise set it to now
-		let { dateUpdated } = parsedEntryCast;
-		if (!("dateUpdated" in parsedEntryCast)) {
-			dateUpdated = now;
-		}
+			// Use dateUpdated if defined, otherwise set it to now
+			let { dateUpdated } = parsedEntryCast;
+			if (!("dateUpdated" in parsedEntryCast)) {
+				dateUpdated = now;
+			}
 
-		const entry = { dateUpdated, title: title.trim(), text: text.trim() };
-		return { indexDate, entry };
-	});
+			const entry = { dateUpdated, title: title.trim(), text: text.trim() };
+			return { indexDate, entry };
+		},
+	);
 }

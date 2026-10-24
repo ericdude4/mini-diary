@@ -1,5 +1,5 @@
 import { Entries, MiniDiaryJson } from "../../types";
-import { getMetadata } from "../diary/diaryFile";
+import { getMetadata } from "../diary/metadata";
 import sortEntries from "./sortEntries";
 
 /**

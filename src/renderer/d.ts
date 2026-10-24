@@ -1,13 +1,10 @@
-declare module "*.png" {
-	const value: any;
-	export = value;
+/// <reference types="vite/client" />
+/// <reference types="vite-plugin-svgr/client" />
+
+import type { Api } from "../preload/preload";
+
+declare global {
+	interface Window {
+		api: Api;
+	}
 }
-
-declare module "*.svg" {
-	const value: any;
-	export = value;
-}
-
-declare module "markdown-draft-js";
-
-declare module "strip-markdown";

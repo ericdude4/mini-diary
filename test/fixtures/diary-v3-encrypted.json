@@ -1,0 +1,5 @@
+{
+	"_comment": "Encrypted with Node 20's crypto.createCipher('aes-192-cbc', hashedPassword), like Mini Diary <= 3.3.0 did",
+	"hashedPassword": "37ff21ae3b05e0eb6830fa3e0562ca638ab131b6077fa148f1e783b94c655e1774d12dd2e973eca5f25637c953781161377124aa9e49f253939a786add11d1df",
+	"content": "{\"metadata\":{\"application\":\"Mini Diary\",\"version\":\"3.3.0\"},\"entries\":{\"2020-01-01\":{\"title\":\"Grüße\",\"text\":\"**hi** 你好\"}}}"
+}

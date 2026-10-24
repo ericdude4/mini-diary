@@ -1,53 +1,25 @@
-import { remote } from "electron";
-
-import settings from "electron-settings";
-
 import { JsonValue } from "../../../shared/types";
 import { ThemePref, Weekday } from "../../types";
-import { supportsNativeTheme } from "../../utils/native-theme";
+import { supportsNativeTheme } from "../../utils/theme";
 
 const DEFAULT_ALLOW_FUTURE_ENTRIES = false;
 const DEFAULT_FIRST_DAY_OF_WEEK = null; // Let the system locale determine the first day of the week
 const DEFAULT_HIDE_TITLES = false;
 const DEFAULT_ENABLE_SPELLCHECK = true;
 const DEFAULT_THEME_PREF: ThemePref = "light";
-const PREF_DIR = remote.app.getPath("userData");
 
 /**
  * Return value for specified preference. If not set, save and return the provided default value
  */
 function getPref<T extends JsonValue>(prefName: string, defaultValue: T): T {
-	let value: T;
-	if (settings.has(prefName)) {
-		value = settings.get(prefName) as T;
-	} else {
-		value = defaultValue;
-		settings.set(prefName, value);
-	}
-	return value;
+	return window.api.prefs.get(prefName, defaultValue);
 }
 
 /**
  * Update the specified preference's value
  */
 function setPref(prefName: string, value: JsonValue): void {
-	settings.set(prefName, value);
-}
-
-// Diary file
-
-/**
- * Return the preference for the directory in which the diary file is saved
- */
-export function loadDirPref(): string {
-	return getPref("filePath", PREF_DIR);
-}
-
-/**
- * Update the diary directory preference
- */
-export function saveDirPref(filePath: string): void {
-	setPref("filePath", filePath);
+	window.api.prefs.set(prefName, value);
 }
 
 // First day of the week

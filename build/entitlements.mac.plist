@@ -8,5 +8,8 @@
 	<true/>
 	<key>com.apple.security.cs.allow-dyld-environment-variables</key>
 	<true/>
+	<!-- Required for ad-hoc signed builds (the app and Electron framework signatures differ) -->
+	<key>com.apple.security.cs.disable-library-validation</key>
+	<true/>
 </dict>
 </plist>

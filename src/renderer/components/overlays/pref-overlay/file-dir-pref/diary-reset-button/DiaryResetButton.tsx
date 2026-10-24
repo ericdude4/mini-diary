@@ -1,5 +1,3 @@
-import { remote } from "electron";
-
 import React, { ReactElement } from "react";
 
 import { translations } from "../../../../../utils/i18n";
@@ -9,7 +7,7 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-	resetDiary: () => void;
+	resetDiary: () => Promise<void>;
 	testFileExists: () => void;
 }
 
@@ -24,7 +22,7 @@ export default function DiaryResetButton(props: Props): ReactElement {
 
 	const showResetPrompt = async (): Promise<void> => {
 		// Show warning prompt asking whether user really wants to reset
-		const { response: clickIndex } = await remote.dialog.showMessageBox({
+		const clickIndex = await window.api.dialog.showMessageBox({
 			type: "warning",
 			buttons: [translations["reset-diary-confirm"], translations.no],
 			defaultId: 1,
@@ -34,7 +32,7 @@ export default function DiaryResetButton(props: Props): ReactElement {
 
 		// If confirm button was clicked: Delete diary and show lock screen
 		if (clickIndex === 0) {
-			resetDiary();
+			await resetDiary();
 			testFileExists();
 		}
 	};

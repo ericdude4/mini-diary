@@ -1,3 +1,5 @@
+@use "../base/variables";
+
 .page-centered-outer {
 	display: flex;
 	align-items: center;
@@ -10,5 +12,5 @@
 }
 
 .page-centered-content {
-	margin-top: $spacing-rel-large;
+	margin-top: variables.$spacing-rel-large;
 }

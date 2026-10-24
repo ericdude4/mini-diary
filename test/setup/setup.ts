@@ -5,3 +5,6 @@ import moment from "moment-timezone";
 // export files
 MockDate.set("Thu Jan 03 2019 00:00:00 GMT-0800");
 moment.tz.setDefault("America/Los_Angeles");
+
+// App version used in the sample export files
+vi.mock("../../package.json", () => ({ productName: "Mini Diary", version: "v0.0.0" }));

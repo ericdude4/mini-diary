@@ -6,6 +6,15 @@ export interface JsonObject {
 export type JsonArray = Array<JsonValue>;
 export type JsonValue = string | number | boolean | null | JsonArray | JsonObject;
 
+// IPC
+
+// Return value of synchronous IPC calls (errors can't be thrown across processes)
+export type SyncResult<T> = { value: T; error?: undefined } | { value?: undefined; error: string };
+
+export type DiaryReadResult =
+	| { content: string; error?: undefined }
+	| { content?: undefined; error: string; isWrongPassword: boolean };
+
 // Overlay
 
 export type OverlayType = "none" | "go-to-date" | "import" | "preferences" | "statistics";

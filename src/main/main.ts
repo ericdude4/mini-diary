@@ -1,16 +1,18 @@
-import { app, BrowserWindow } from "electron";
-import path from "path";
+import path from "node:path";
 
+import { app, BrowserWindow, nativeTheme, powerMonitor, shell } from "electron";
 import contextMenu from "electron-context-menu";
 import electronDebug from "electron-debug";
 
-import { initLogger } from "../shared/logger";
+import { initDevMode } from "./devMode";
+import { initLogger } from "./logger";
 import { initI18n } from "./i18n/i18n";
 import initIpcListeners from "./ipcMain/listeners";
+import { lock, sendThemeUpdated } from "./ipcMain/senders";
 import { buildMenu } from "./menu/menu";
-import updateApp from "./updater";
 import { getWindow, setWindow } from "./window";
 
+initDevMode();
 initLogger();
 electronDebug();
 contextMenu({
@@ -27,7 +29,10 @@ async function createWindow(): Promise<BrowserWindow> {
 		show: false,
 		titleBarStyle: "hiddenInset",
 		webPreferences: {
-			nodeIntegration: true,
+			preload: path.join(import.meta.dirname, "../preload/preload.cjs"),
+			contextIsolation: true,
+			nodeIntegration: false,
+			sandbox: true,
 			spellcheck: true,
 		},
 	});
@@ -36,12 +41,26 @@ async function createWindow(): Promise<BrowserWindow> {
 	});
 	win.on("closed", (): void => {
 		// Dereference the window
-		// @ts-ignore
 		setWindow(null);
 	});
 
-	// Load HTML file
-	await win.loadFile(path.join(__dirname, "index.html"));
+	// The app never needs to navigate away or open other windows. Open links in the browser instead
+	win.webContents.setWindowOpenHandler(({ url }) => {
+		if (url.startsWith("https://")) {
+			shell.openExternal(url);
+		}
+		return { action: "deny" };
+	});
+	win.webContents.on("will-navigate", (e): void => {
+		e.preventDefault();
+	});
+
+	// Load HTML file (or the dev server URL during development)
+	if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
+		await win.loadURL(process.env.ELECTRON_RENDERER_URL);
+	} else {
+		await win.loadFile(path.join(import.meta.dirname, "../renderer/index.html"));
+	}
 
 	return win;
 }
@@ -52,14 +71,11 @@ app.on("window-all-closed", (): void => {
 });
 
 // On app activation (e.g. when clicking dock icon), re-create BrowserWindow if necessary
-app.on(
-	"activate",
-	async (): Promise<void> => {
-		if (!getWindow()) {
-			setWindow(await createWindow());
-		}
-	},
-);
+app.on("activate", async (): Promise<void> => {
+	if (app.isReady() && !getWindow()) {
+		setWindow(await createWindow());
+	}
+});
 
 (async (): Promise<void> => {
 	// Wait for Electron to be initialized
@@ -70,8 +86,14 @@ app.on(
 	buildMenu();
 	initIpcListeners();
 
+	// Lock diary when screen is locked
+	if (process.platform === "darwin" || process.platform === "win32") {
+		powerMonitor.on("lock-screen", lock);
+	}
+
+	// Notify renderer process about system theme changes
+	nativeTheme.on("updated", sendThemeUpdated);
+
 	// Create and show BrowserWindow
 	setWindow(await createWindow());
-
-	updateApp();
 })();

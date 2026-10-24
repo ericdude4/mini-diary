@@ -29,8 +29,9 @@ body {
 	/* Global styles */
 	color: var(--color-text);
 	font-weight: var(--font-weight-normal);
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica", "Arial",
-		sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	line-height: 1.6;
 	background: var(--color-background);
 }
@@ -41,19 +42,19 @@ body {
 		--color-background: #4b4b4b;
 		--color-selection: #b7cbe4;
 		--color-text: #d0d0d0;
-		--color-text-heading: #ffffff;
+		--color-text-heading: #fff;
 	}
 }
 
 /* Layout */
 
-@media (max-width: 800px) {
+@media (width <= 800px) {
 	body {
 		font-size: 15px;
 	}
 }
 
-@media (min-width: 801px) {
+@media (width >= 801px) {
 	body {
 		font-size: 18px;
 	}
@@ -64,7 +65,7 @@ header {
 	text-align: center;
 	background: var(--color-background-footer);
 	background: linear-gradient(335deg, var(--color-background-footer) 0%, var(--color-main) 100%);
-	box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.3);
+	box-shadow: 1px 1px 5px 1px rgb(0 0 0 / 30%);
 }
 
 section {
@@ -169,7 +170,7 @@ main a:hover {
 	line-height: 1;
 	background: var(--color-main);
 	border-radius: 12px;
-	box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+	box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 20%);
 	transition: var(--transition);
 }
 
@@ -218,7 +219,7 @@ main a:hover {
 	color: var(--color-main);
 }
 
-@media (max-width: 800px) {
+@media (width <= 800px) {
 	.highlight {
 		margin-bottom: var(--spacing-abs-small);
 	}
@@ -228,7 +229,7 @@ main a:hover {
 	}
 }
 
-@media (min-width: 801px) {
+@media (width >= 801px) {
 	.highlight {
 		margin-bottom: var(--spacing-abs-medium);
 	}

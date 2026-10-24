@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, ReactElement, ReactNode } from "react";
 
 import appIcon from "../../../../assets/icons/app-icon.png";
 
@@ -6,7 +6,7 @@ interface Props {
 	children: ReactNode;
 }
 
-const StartPage: FunctionComponent<Props> = (props: Props): JSX.Element => {
+const StartPage: FunctionComponent<Props> = (props: Props): ReactElement => {
 	const { children } = props;
 	return (
 		<div className="page-centered-outer">

@@ -1,9 +1,9 @@
-import ClearIcon from "feather-icons/dist/icons/x.svg";
+import ClearIcon from "feather-icons/dist/icons/x.svg?react";
 import debounce from "lodash.debounce";
 import { Moment } from "moment-timezone";
 import React, { ChangeEvent, PureComponent, ReactNode } from "react";
 
-import TodayIcon from "../../../../assets/icons/today.svg";
+import TodayIcon from "../../../../assets/icons/today.svg?react";
 import { createDate } from "../../../../utils/dateFormat";
 import { translations } from "../../../../utils/i18n";
 import { iconProps } from "../../../../utils/icons";

@@ -21,7 +21,7 @@ interface State {
 }
 
 export default class PasswordPrompt extends PureComponent<Props, State> {
-	input: HTMLInputElement;
+	input: HTMLInputElement | null = null;
 
 	constructor(props: Props) {
 		super(props);
@@ -62,7 +62,7 @@ export default class PasswordPrompt extends PureComponent<Props, State> {
 		});
 
 		// Select entered password if it is incorrect
-		this.input.select();
+		this.input?.select();
 	}
 
 	render(): ReactNode {
@@ -77,9 +77,9 @@ export default class PasswordPrompt extends PureComponent<Props, State> {
 						value={password}
 						onChange={this.onChange}
 						placeholder={translations.password}
-						autoFocus // eslint-disable-line jsx-a11y/no-autofocus
+						autoFocus
 						required
-						ref={(input: HTMLInputElement): void => {
+						ref={(input: HTMLInputElement | null): void => {
 							this.input = input;
 						}}
 					/>

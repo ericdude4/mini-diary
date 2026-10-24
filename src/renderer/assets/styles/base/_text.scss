@@ -1,9 +1,12 @@
+@use "mixins";
+@use "variables";
+
 .app {
-	@include color("text");
-	font-weight: $font-weight-normal;
-	font-size: $font-size-base;
-	font-family: $font-family;
-	line-height: $line-height;
+	@include mixins.color("text");
+	font-weight: variables.$font-weight-normal;
+	font-size: variables.$font-size-base;
+	font-family: variables.$font-family;
+	line-height: variables.$line-height;
 	user-select: none;
 }
 
@@ -13,8 +16,8 @@ a {
 }
 
 h1 {
-	font-weight: $font-weight-bold;
-	font-size: $font-size-h1;
+	font-weight: variables.$font-weight-bold;
+	font-size: variables.$font-size-h1;
 }
 
 abbr {
@@ -26,6 +29,6 @@ code {
 }
 
 .text-faded {
-	@include color("text-faded");
+	@include mixins.color("text-faded");
 	font-size: 80%;
 }

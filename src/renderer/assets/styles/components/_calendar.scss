@@ -1,13 +1,10 @@
-// stylelint-disable selector-class-pattern
+@use "../base/mixins";
+@use "../base/variables";
 
 .view-selector {
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 1.5 * $spacing-abs-large;
-}
-
-.DayPicker * {
-	outline: none;
+	margin-bottom: 1.5 * variables.$spacing-abs-large;
 }
 
 .calendar-nav {
@@ -20,81 +17,108 @@
 	}
 
 	.button-today {
-		width: $input-height;
+		width: variables.$input-height;
 	}
 }
 
-.DayPicker-Body {
-	display: grid;
-	grid-template-rows: repeat(6, $input-height);
+.rdp-root * {
+	outline: none;
 }
 
-.DayPicker-Months {
+.rdp-month_grid {
 	line-height: 1;
+	border-collapse: collapse;
 }
 
-.DayPicker-Week,
-.DayPicker-WeekdaysRow {
+.rdp-weeks {
 	display: grid;
-	grid-template-columns: repeat(7, $input-height);
+	grid-template-rows: repeat(6, variables.$input-height);
 }
 
-.DayPicker-Day,
-.DayPicker-Weekday {
+.rdp-week,
+.rdp-weekdays {
+	display: grid;
+	grid-template-columns: repeat(7, variables.$input-height);
+}
+
+.rdp-weekdays {
+	height: variables.$input-height;
+}
+
+.rdp-weekday {
+	@include mixins.color("text-faded");
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-
-.DayPicker-WeekdaysRow {
-	height: $input-height;
-}
-
-.DayPicker-Weekday {
-	@include color("text-faded");
+	font-weight: normal;
 	font-size: 80%;
 }
 
-.DayPicker-Day {
+.rdp-day {
+	display: flex;
 	margin: 1px;
+	padding: 0;
 	border-radius: 50%;
-	transition: $transition;
+	transition: variables.$transition;
 
-	&:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):not(.DayPicker-Day--selected) {
+	&:not(.rdp-disabled, .rdp-outside, .rdp-selected) {
 		&:hover {
-			@include background-color("background-hover");
+			@include mixins.background-color("background-hover");
 		}
 	}
 }
 
-.DayPicker-Day--disabled {
-	@include color("text-disabled");
-}
+// Reset button styles so the day cell determines the appearance
+.rdp-day_button {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	color: inherit;
+	font: inherit;
+	background: none;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
 
-.DayPicker-Day--hasEntry {
-	font-weight: $font-weight-bold;
-
-	&:not(.DayPicker-Day--selected) {
-		@include color("main");
+	&:disabled {
+		cursor: default;
 	}
 }
 
-.DayPicker-Day--today:not(.DayPicker-Day--outside) {
-	@include border-color("main");
+.rdp-hidden {
+	visibility: hidden;
+}
+
+.rdp-disabled {
+	@include mixins.color("text-disabled");
+}
+
+.rdp-has-entry {
+	font-weight: variables.$font-weight-bold;
+
+	&:not(.rdp-selected) {
+		@include mixins.color("main");
+	}
+}
+
+.rdp-today:not(.rdp-outside) {
+	@include mixins.border-color("main");
 	border-style: solid;
 	border-width: 2px;
 
 	&:hover {
-		@include border-color("main-hover");
+		@include mixins.border-color("main-hover");
 	}
 }
 
-.DayPicker-Day--selected {
-	@include color("text-button");
-	@include background-color("main");
-	@include box-shadow($shadow-size-outer, "shadow-outer");
+.rdp-selected {
+	@include mixins.color("text-button");
+	@include mixins.background-color("main");
+	@include mixins.box-shadow(variables.$shadow-size-outer, "shadow-outer");
 
 	&:hover {
-		@include background-color("main-hover");
+		@include mixins.background-color("main-hover");
 	}
 }

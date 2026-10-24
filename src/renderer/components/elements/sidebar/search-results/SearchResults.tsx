@@ -18,7 +18,7 @@ export interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-export default class SearchResults extends PureComponent<Props, {}> {
+export default class SearchResults extends PureComponent<Props> {
 	constructor(props: Props) {
 		super(props);
 

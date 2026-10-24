@@ -30,7 +30,10 @@ let menu: Menu;
  */
 export function disableMenuItems(): void {
 	DISABLED_MENU_ITEMS.forEach((id): void => {
-		menu.getMenuItemById(id).enabled = false;
+		const item = menu.getMenuItemById(id);
+		if (item) {
+			item.enabled = false;
+		}
 	});
 }
 
@@ -39,7 +42,10 @@ export function disableMenuItems(): void {
  */
 export function enableMenuItems(): void {
 	DISABLED_MENU_ITEMS.forEach((id): void => {
-		menu.getMenuItemById(id).enabled = true;
+		const item = menu.getMenuItemById(id);
+		if (item) {
+			item.enabled = true;
+		}
 	});
 }
 
