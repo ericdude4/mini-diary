@@ -68,6 +68,9 @@ $editor-padding-large: 2 * variables.$spacing-abs-large;
 }
 
 .editor-input {
+	// Keep the paragraph margins inside the editor (instead of collapsing through it), so the
+	// placeholder is positioned relative to the same edge as the text
+	display: flow-root;
 	outline: none;
 }
 
