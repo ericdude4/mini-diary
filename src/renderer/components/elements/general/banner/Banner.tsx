@@ -1,6 +1,6 @@
-import ErrorIcon from "feather-icons/dist/icons/alert-triangle.svg";
-import InfoIcon from "feather-icons/dist/icons/info.svg";
-import React, { FunctionComponent } from "react";
+import ErrorIcon from "feather-icons/dist/icons/alert-triangle.svg?react";
+import InfoIcon from "feather-icons/dist/icons/info.svg?react";
+import React, { FunctionComponent, ReactElement } from "react";
 
 import { BannerType } from "../../../../types";
 import { iconProps } from "../../../../utils/icons";
@@ -11,7 +11,7 @@ interface Props {
 	bannerType: BannerType;
 }
 
-const Banner: FunctionComponent<Props> = (props: Props): JSX.Element => {
+const Banner: FunctionComponent<Props> = (props: Props): ReactElement => {
 	const { className, message, bannerType } = props;
 
 	const icon = bannerType === "error" ? <ErrorIcon {...iconProps} /> : <InfoIcon {...iconProps} />;

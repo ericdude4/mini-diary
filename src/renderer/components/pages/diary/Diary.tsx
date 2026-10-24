@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, ReactElement } from "react";
 
 import EditorContainer from "../../elements/editor/editor/EditorContainer";
 import SidebarContainer from "../../elements/sidebar/sidebar/SidebarContainer";
 
-const Diary: FunctionComponent<{}> = (): JSX.Element => (
+const Diary: FunctionComponent = (): ReactElement => (
 	<div className="diary">
 		<SidebarContainer />
 		<EditorContainer />

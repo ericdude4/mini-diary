@@ -1,13 +1,11 @@
-import { remote } from "electron";
-
-import logger from "electron-log";
+import logger from "electron-log/renderer";
 import React, { PureComponent, ReactNode } from "react";
 
+import { productName as appName } from "../../../../../package.json";
 import { ImportFormat } from "../../../types";
 import { translate, translations } from "../../../utils/i18n";
 import OverlayContainer from "../overlay-hoc/OverlayContainer";
 
-const appName = remote.app.name;
 const fields = {
 	jsonDayOne: {
 		title: translate("import-from-format", { format: "JSON (Day One)" }),
@@ -44,16 +42,16 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-	runImport: (importFilePath: string) => void;
+	runImport: (fileContent: string) => void;
 }
 
 type Props = StateProps & DispatchProps;
 
-export default class ImportOverlay extends PureComponent<Props, {}> {
+export default class ImportOverlay extends PureComponent<Props> {
 	static showImportFormatError(): void {
 		const errMsg = "No import format selected";
 		logger.error(`Error importing diary file: ${errMsg}`);
-		remote.dialog.showErrorBox(translations["import-error-title"], errMsg);
+		window.api.dialog.showErrorBox(translations["import-error-title"], errMsg);
 	}
 
 	constructor(props: Props) {
@@ -72,18 +70,15 @@ export default class ImportOverlay extends PureComponent<Props, {}> {
 		}
 
 		// Show dialog for selecting file to import
-		const { filePaths } = await remote.dialog.showOpenDialog({
-			properties: ["openFile"],
-			filters: [
-				{
-					name: fields[importFormat].extension.toUpperCase(),
-					extensions: [fields[importFormat].extension],
-				},
-			],
-		});
+		const fileContent = await window.api.files.openTextFile([
+			{
+				name: fields[importFormat].extension.toUpperCase(),
+				extensions: [fields[importFormat].extension],
+			},
+		]);
 
-		if (filePaths && filePaths.length === 1) {
-			runImport(filePaths[0]);
+		if (fileContent !== null) {
+			runImport(fileContent);
 		}
 	}
 

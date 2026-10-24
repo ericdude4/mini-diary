@@ -3,6 +3,7 @@ import React, { ReactElement } from "react";
 import { translations } from "../../../../utils/i18n";
 import FutureEntriesPrefContainer from "./future-entries-pref/FutureEntriesPrefContainer";
 import HideTitlesPrefContainer from "./hide-titles-pref/HideTitlesPrefContainer";
+import ShowPhotosPrefContainer from "./show-photos-pref/ShowPhotosPrefContainer";
 import SpellcheckPrefContainer from "./spellcheck-pref/SpellcheckPrefContainer";
 
 /**
@@ -18,6 +19,13 @@ export default function EntriesPref(): ReactElement {
 				<FutureEntriesPrefContainer />
 				<br />
 				<SpellcheckPrefContainer />
+				{/* Apple Photos is only available on macOS */}
+				{window.api.platform === "darwin" && (
+					<>
+						<br />
+						<ShowPhotosPrefContainer />
+					</>
+				)}
 			</div>
 		</fieldset>
 	);

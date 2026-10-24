@@ -13,7 +13,7 @@ Features and FAQs can be found on the website: [**minidiary.app**](https://minid
 
 ## Development
 
-The application is built with Electron and React. To run or build the app yourself, you'll need to have Node.js and Yarn installed.
+The application is built with Electron, React and Lexical, bundled with electron-vite. To run or build the app yourself, you'll need Node.js 22.12+ and Yarn.
 
 ### Running the app
 
@@ -22,9 +22,22 @@ The application is built with Electron and React. To run or build the app yourse
 3. Install the dependencies: `yarn`
 4. Run the app: `yarn start`
 
+When run from source, the app keeps its data inside the project directory, separate from the installed app: the diary is saved as `mini-diary.txt` and the preferences and backups go into `.dev-user-data/` (both are gitignored).
+
 ### Building the app
 
-After cloning the repo and installing the dependencies, run `yarn build`. The packaged app can be found in the `dist` folder.
+After cloning the repo and installing the dependencies, run `yarn dist`. A native Apple Silicon app (ad-hoc signed, `.dmg` and `.zip`) can be found in the `dist` folder. Builds are local only: there is no auto-updater and no notarization.
+
+Showing photos from Apple Photos (Preferences → Diary entries) uses a small Swift helper in `native/photos-helper`, which is compiled automatically by `yarn start` and `yarn build` (requires Xcode or the Xcode command line tools).
+
+All dependencies are bundled into the app by electron-vite, so they are listed under `devDependencies`.
+
+### Tests
+
+- `yarn test`: Unit tests (Vitest) and type checks
+- `yarn lint:ts`, `yarn lint:css`, `yarn format`: Linters and formatting
+
+The tests include regression checks that diary files written by previous versions (v3.x) can still be decrypted and that their Markdown survives the editor round-trip.
 
 ## Contributing
 

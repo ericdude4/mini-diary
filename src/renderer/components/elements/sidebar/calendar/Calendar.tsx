@@ -1,11 +1,9 @@
-import { Moment } from "moment-timezone";
-import React, { PureComponent, ReactNode } from "react";
-import DayPicker from "react-day-picker";
-import MomentLocaleUtils from "react-day-picker/moment";
+import { DayPicker } from "@daypicker/react";
+import moment, { Moment } from "moment-timezone";
+import React, { PureComponent, ReactElement, ReactNode } from "react";
 
 import { Entries, Weekday } from "../../../../types";
-import { createDate, parseDate, toIndexDate } from "../../../../utils/dateFormat";
-import { lang } from "../../../../utils/i18n";
+import { createDate, parseDate, toDateString, toIndexDate } from "../../../../utils/dateFormat";
 import CalendarNavContainer from "../calendar-nav/CalendarNavContainer";
 
 export interface StateProps {
@@ -21,7 +19,20 @@ export interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-export default class Calendar extends PureComponent<Props, {}> {
+// Use Moment.js (which is set to the app language) for localizing the calendar
+const formatters = {
+	formatWeekdayName: (date: Date): string => parseDate(date).format("dd"),
+};
+const labels = {
+	labelDayButton: (date: Date): string => toDateString(parseDate(date)),
+};
+
+// The month name is displayed by `CalendarNav` instead
+function HiddenMonthCaption(): ReactElement {
+	return <></>;
+}
+
+export default class Calendar extends PureComponent<Props> {
 	constructor(props: Props) {
 		super(props);
 
@@ -43,29 +54,36 @@ export default class Calendar extends PureComponent<Props, {}> {
 		const { allowFutureEntries, dateSelected, entries, firstDayOfWeek } = this.props;
 
 		const today = createDate();
-		const daysWithEntries = Object.keys(entries);
+		const daysWithEntries = new Set(Object.keys(entries));
 
 		const hasEntry = (date: Date): boolean => {
 			const indexDate = toIndexDate(parseDate(date));
-			return daysWithEntries.includes(indexDate);
+			return daysWithEntries.has(indexDate);
 		};
 
 		const dateSelectedObj = dateSelected.toDate();
 		const todayObj = today.toDate();
 
 		return (
-			<DayPicker
-				month={dateSelectedObj}
-				selectedDays={dateSelectedObj}
-				disabledDays={allowFutureEntries ? null : { after: todayObj }}
-				captionElement={(): null => null}
-				modifiers={{ hasEntry }}
-				firstDayOfWeek={firstDayOfWeek ?? undefined}
-				locale={lang}
-				localeUtils={MomentLocaleUtils}
-				navbarElement={<CalendarNavContainer />}
-				onDayClick={this.onDateSelection}
-			/>
+			<div className="calendar">
+				<CalendarNavContainer />
+				<DayPicker
+					mode="single"
+					required
+					month={dateSelectedObj}
+					selected={dateSelectedObj}
+					today={todayObj}
+					disabled={allowFutureEntries ? undefined : { after: todayObj }}
+					modifiers={{ hasEntry }}
+					modifiersClassNames={{ hasEntry: "rdp-has-entry" }}
+					weekStartsOn={firstDayOfWeek ?? (moment.localeData().firstDayOfWeek() as Weekday)}
+					formatters={formatters}
+					labels={labels}
+					hideNavigation
+					components={{ MonthCaption: HiddenMonthCaption }}
+					onDayClick={this.onDateSelection}
+				/>
+			</div>
 		);
 	}
 }

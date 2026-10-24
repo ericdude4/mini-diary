@@ -10,7 +10,9 @@ const mapStateToProps = (state: RootState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatchT): DispatchProps => ({
-	decryptFile: (password: string): void => dispatch(decryptFile(password)),
+	decryptFile: (password: string): void => {
+		dispatch(decryptFile(password));
+	},
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordPrompt);

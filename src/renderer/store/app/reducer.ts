@@ -4,8 +4,9 @@ import {
 	loadFutureEntriesPref,
 	loadThemePref,
 	loadHideTitlesPref,
+	loadShowPhotosPref,
 } from "../../files/preferences/preferences";
-import { getThemeFromPref } from "../../utils/native-theme";
+import { getThemeFromPref } from "../../utils/theme";
 import {
 	AppAction,
 	AppState,
@@ -16,6 +17,7 @@ import {
 	SET_THEME,
 	SET_THEME_PREF,
 	SET_HIDE_TITLES,
+	SET_SHOW_PHOTOS,
 } from "./types";
 
 const themePref = loadThemePref();
@@ -26,6 +28,7 @@ const initialState: AppState = {
 	enableSpellcheck: loadSpellcheckPref(),
 	firstDayOfWeek: loadFirstDayOfWeekPref(),
 	hideTitles: loadHideTitlesPref(),
+	showPhotos: loadShowPhotosPref(),
 	overlay: "none",
 	theme,
 	themePref,
@@ -49,6 +52,12 @@ function appReducer(state = initialState, action: AppAction): AppState {
 			return {
 				...state,
 				hideTitles: action.payload.hideTitles,
+			};
+		}
+		case SET_SHOW_PHOTOS: {
+			return {
+				...state,
+				showPhotos: action.payload.showPhotos,
 			};
 		}
 		case SET_FIRST_DAY_OF_WEEK: {

@@ -1,3 +1,6 @@
+@use "../base/mixins";
+@use "../base/variables";
+
 .banner {
 	display: flex;
 	align-items: center;
@@ -10,20 +13,20 @@
 	}
 
 	&.banner-error {
-		@include color("error");
+		@include mixins.color("error");
 	}
 
 	&.banner-no-results {
-		@include color("text-faded");
+		@include mixins.color("text-faded");
 	}
 }
 
 .password-creation-banner,
 .password-prompt-banner {
-	margin-top: $spacing-abs-large;
+	margin-top: variables.$spacing-abs-large;
 }
 
 .password-update-banner {
 	height: 1em;
-	margin-top: $spacing-abs-medium;
+	margin-top: variables.$spacing-abs-medium;
 }

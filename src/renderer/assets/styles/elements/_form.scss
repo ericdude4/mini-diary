@@ -1,21 +1,23 @@
+@use "../base/variables";
+
 fieldset {
-	margin-top: $spacing-abs-medium;
+	margin-top: variables.$spacing-abs-medium;
 	border: 0;
 }
 
 legend {
-	font-weight: $font-weight-bold;
+	font-weight: variables.$font-weight-bold;
 }
 
 .form-group {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	margin-right: -$spacing-abs-small;
-	margin-bottom: -$spacing-abs-small;
+	margin-right: -(variables.$spacing-abs-small);
+	margin-bottom: -(variables.$spacing-abs-small);
 }
 
 .form-group > * {
-	margin-right: $spacing-abs-small;
-	margin-bottom: $spacing-abs-small;
+	margin-right: variables.$spacing-abs-small;
+	margin-bottom: variables.$spacing-abs-small;
 }

@@ -1,5 +1,8 @@
+@use "../base/mixins";
+@use "../base/variables";
+
 @mixin input-fixed-height {
-	height: $input-height;
+	height: variables.$input-height;
 	line-height: 1;
 }
 
@@ -9,7 +12,7 @@ button,
 input,
 select,
 textarea {
-	padding: (0.75 * $spacing-abs-medium) $spacing-abs-medium;
+	padding: (0.75 * variables.$spacing-abs-medium) variables.$spacing-abs-medium;
 	color: inherit;
 	font: inherit;
 	text-align: left;
@@ -22,35 +25,35 @@ textarea {
 
 .button {
 	@include input-fixed-height;
-	@include background-color("background-input");
-	@include box-shadow($shadow-size-outer, "shadow-outer");
-	border-radius: $border-radius-button;
-	transition: $transition;
+	@include mixins.background-color("background-input");
+	@include mixins.box-shadow(variables.$shadow-size-outer, "shadow-outer");
+	border-radius: variables.$border-radius-button;
+	transition: variables.$transition;
 
 	&:not(.button-invisible):hover {
-		@include background-color("background-input-hover");
+		@include mixins.background-color("background-input-hover");
 	}
 
 	&.button-main {
-		@include color("text-button");
+		@include mixins.color("text-button");
 
 		&:not([disabled]) {
-			@include background-color("main");
+			@include mixins.background-color("main");
 
 			&:hover {
-				@include background-color("main-hover");
+				@include mixins.background-color("main-hover");
 			}
 		}
 
 		&:disabled {
-			@include background-color("background-button-disabled");
+			@include mixins.background-color("background-button-disabled");
 			box-shadow: none;
 		}
 	}
 
 	&.button-invisible {
-		width: $input-height;
-		height: $input-height;
+		width: variables.$input-height;
+		height: variables.$input-height;
 		padding: 0;
 		line-height: 0;
 		text-align: center;
@@ -59,31 +62,31 @@ textarea {
 		box-shadow: none;
 
 		&:not([disabled]):hover {
-			@include color("text-faded");
+			@include mixins.color("text-faded");
 		}
 
 		&.button-active {
-			@include color("main");
+			@include mixins.color("main");
 
 			&:hover {
-				@include color("main-hover");
+				@include mixins.color("main-hover");
 			}
 		}
 	}
 
 	&:disabled {
-		@include color("text-disabled");
+		@include mixins.color("text-disabled");
 	}
 }
 
 // Text input
 
-input:not([type="checkbox"]):not([type="radio"]) {
+input:not([type="checkbox"], [type="radio"]) {
 	@include input-fixed-height;
-	@include background-color("background-input");
-	@include box-shadow($shadow-size-inner, "shadow-inner");
-	width: $input-width;
-	border-radius: $border-radius-input;
+	@include mixins.background-color("background-input");
+	@include mixins.box-shadow(variables.$shadow-size-inner, "shadow-inner");
+	width: variables.$input-width;
+	border-radius: variables.$border-radius-input;
 
 	// Date input: Hide arrow button which displays Chrome's date picker popup
 	&[type="date"]::-webkit-calendar-picker-indicator {

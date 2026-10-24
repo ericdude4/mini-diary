@@ -33,6 +33,4 @@ export interface SetExportSuccessAction extends Action {
 }
 
 export type ExportAction =
-	| SetExportInProgressAction
-	| SetExportErrorAction
-	| SetExportSuccessAction;
+	SetExportInProgressAction | SetExportErrorAction | SetExportSuccessAction;

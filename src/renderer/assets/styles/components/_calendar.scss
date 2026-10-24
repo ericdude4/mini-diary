@@ -1,100 +1,127 @@
-// stylelint-disable selector-class-pattern
-
-.view-selector {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 1.5 * $spacing-abs-large;
-}
-
-.DayPicker * {
-	outline: none;
-}
+@use "../base/mixins";
+@use "../base/variables";
 
 .calendar-nav {
 	display: flex;
 	align-items: center;
+	margin-bottom: 4px;
 
 	.month-name {
 		flex: 1;
+		font-size: 110%;
 		text-align: center;
 	}
 
-	.button-today {
-		width: $input-height;
-	}
-}
+	.button-invisible {
+		width: variables.$sidebar-control-height;
+		height: variables.$sidebar-control-height;
 
-.DayPicker-Body {
-	display: grid;
-	grid-template-rows: repeat(6, $input-height);
-}
-
-.DayPicker-Months {
-	line-height: 1;
-}
-
-.DayPicker-Week,
-.DayPicker-WeekdaysRow {
-	display: grid;
-	grid-template-columns: repeat(7, $input-height);
-}
-
-.DayPicker-Day,
-.DayPicker-Weekday {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.DayPicker-WeekdaysRow {
-	height: $input-height;
-}
-
-.DayPicker-Weekday {
-	@include color("text-faded");
-	font-size: 80%;
-}
-
-.DayPicker-Day {
-	margin: 1px;
-	border-radius: 50%;
-	transition: $transition;
-
-	&:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):not(.DayPicker-Day--selected) {
-		&:hover {
-			@include background-color("background-hover");
+		svg {
+			width: 18px;
+			height: 18px;
 		}
 	}
 }
 
-.DayPicker-Day--disabled {
-	@include color("text-disabled");
+.rdp-root * {
+	outline: none;
 }
 
-.DayPicker-Day--hasEntry {
-	font-weight: $font-weight-bold;
+.rdp-month_grid {
+	line-height: 1;
+	border-collapse: collapse;
+}
 
-	&:not(.DayPicker-Day--selected) {
-		@include color("main");
+.rdp-weeks {
+	display: grid;
+	grid-auto-rows: variables.$calendar-day-size;
+}
+
+.rdp-week,
+.rdp-weekdays {
+	display: grid;
+	grid-template-columns: repeat(7, variables.$calendar-day-size);
+}
+
+.rdp-weekdays {
+	height: 24px;
+}
+
+.rdp-weekday {
+	@include mixins.color("text-faded");
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: normal;
+	font-size: 80%;
+}
+
+.rdp-day {
+	display: flex;
+	font-size: 90%;
+	margin: 1px;
+	padding: 0;
+	border-radius: 50%;
+	transition: variables.$transition;
+
+	&:not(.rdp-disabled, .rdp-outside, .rdp-selected) {
+		&:hover {
+			@include mixins.background-color("background-hover");
+		}
 	}
 }
 
-.DayPicker-Day--today:not(.DayPicker-Day--outside) {
-	@include border-color("main");
+// Reset button styles so the day cell determines the appearance
+.rdp-day_button {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	color: inherit;
+	font: inherit;
+	background: none;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+
+	&:disabled {
+		cursor: default;
+	}
+}
+
+.rdp-hidden {
+	visibility: hidden;
+}
+
+.rdp-disabled {
+	@include mixins.color("text-disabled");
+}
+
+.rdp-has-entry {
+	font-weight: variables.$font-weight-bold;
+
+	&:not(.rdp-selected) {
+		@include mixins.color("main");
+	}
+}
+
+.rdp-today:not(.rdp-outside) {
+	@include mixins.border-color("main");
 	border-style: solid;
 	border-width: 2px;
 
 	&:hover {
-		@include border-color("main-hover");
+		@include mixins.border-color("main-hover");
 	}
 }
 
-.DayPicker-Day--selected {
-	@include color("text-button");
-	@include background-color("main");
-	@include box-shadow($shadow-size-outer, "shadow-outer");
+.rdp-selected {
+	@include mixins.color("text-button");
+	@include mixins.background-color("main");
+	@include mixins.box-shadow(variables.$shadow-size-outer, "shadow-outer");
 
 	&:hover {
-		@include background-color("main-hover");
+		@include mixins.background-color("main-hover");
 	}
 }

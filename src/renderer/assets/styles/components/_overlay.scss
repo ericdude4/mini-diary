@@ -1,3 +1,6 @@
+@use "../base/mixins";
+@use "../base/variables";
+
 .overlay-outer {
 	position: absolute;
 	top: 0;
@@ -8,18 +11,18 @@
 	justify-content: center;
 	width: 100%;
 	height: 100%;
-	padding: $spacing-abs-large;
-	background-color: rgba(0, 0, 0, 0.6);
+	padding: variables.$spacing-abs-large;
+	background-color: rgb(0 0 0 / 60%);
 }
 
 .overlay-inner {
-	@include background-color("background");
-	@include box-shadow($shadow-size-outer, "shadow-outer");
+	@include mixins.background-color("background");
+	@include mixins.box-shadow(variables.$shadow-size-outer, "shadow-outer");
 	position: relative;
 	max-width: 100%;
 	max-height: 100%;
 	overflow-y: auto;
-	border-radius: $border-radius-input;
+	border-radius: variables.$border-radius-input;
 }
 
 .overlay-close-button {
@@ -28,18 +31,18 @@
 }
 
 .overlay-content {
-	padding: $spacing-rel-small;
+	padding: variables.$spacing-rel-small;
 
 	h1,
-	p:not(.file-dir):not(.banner-message) {
-		margin-bottom: $spacing-abs-medium;
+	p:not(.file-dir, .banner-message) {
+		margin-bottom: variables.$spacing-abs-medium;
 	}
 }
 
 // "Go to date" overlay
 .go-to-date-overlay {
 	input {
-		margin: 0 $spacing-abs-small;
+		margin: 0 variables.$spacing-abs-small;
 	}
 }
 
@@ -63,12 +66,12 @@
 	}
 
 	.stat-number {
-		padding-right: $spacing-abs-small;
-		font-size: $font-size-h1;
+		padding-right: variables.$spacing-abs-small;
+		font-size: variables.$font-size-h1;
 		text-align: right;
 	}
 
 	.stat-label {
-		@include color("text-faded");
+		@include mixins.color("text-faded");
 	}
 }

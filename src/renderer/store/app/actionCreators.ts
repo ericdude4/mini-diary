@@ -3,16 +3,18 @@ import {
 	saveFirstDayOfWeekPref,
 	saveFutureEntriesPref,
 	saveHideTitlesPref,
+	saveShowPhotosPref,
 	saveThemePref,
 	saveSpellcheckPref,
 } from "../../files/preferences/preferences";
 import { Weekday, Theme, ThemePref } from "../../types";
-import { getThemeFromPref } from "../../utils/native-theme";
+import { getThemeFromPref } from "../../utils/theme";
 import { ThunkActionT } from "../store";
 import {
 	SET_ALLOW_FUTURE_ENTRIES,
 	SET_ENABLE_SPELLCHECK,
 	SET_HIDE_TITLES,
+	SET_SHOW_PHOTOS,
 	SET_FIRST_DAY_OF_WEEK,
 	SET_OVERLAY,
 	SET_THEME,
@@ -24,6 +26,7 @@ import {
 	SetThemeAction,
 	SetThemePrefAction,
 	SetHideTitlesAction,
+	SetShowPhotosAction,
 } from "./types";
 
 // Action creators
@@ -51,6 +54,15 @@ function setHideTitles(hideTitles: boolean): SetHideTitlesAction {
 		type: SET_HIDE_TITLES,
 		payload: {
 			hideTitles,
+		},
+	};
+}
+
+function setShowPhotos(showPhotos: boolean): SetShowPhotosAction {
+	return {
+		type: SET_SHOW_PHOTOS,
+		payload: {
+			showPhotos,
 		},
 	};
 }
@@ -102,38 +114,49 @@ export function setThemePref(themePref: ThemePref): SetThemePrefAction {
 
 // Thunks
 
-export const updateSpellcheckPref = (enableSpellcheck: boolean): ThunkActionT => (
-	dispatch,
-): void => {
-	dispatch(setEnableSpellcheck(enableSpellcheck));
-	saveSpellcheckPref(enableSpellcheck);
-};
+export const updateSpellcheckPref =
+	(enableSpellcheck: boolean): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(setEnableSpellcheck(enableSpellcheck));
+		saveSpellcheckPref(enableSpellcheck);
+	};
 
-export const updateFutureEntriesPref = (allowFutureEntries: boolean): ThunkActionT => (
-	dispatch,
-): void => {
-	dispatch(setAllowFutureEntries(allowFutureEntries));
-	saveFutureEntriesPref(allowFutureEntries);
-};
+export const updateFutureEntriesPref =
+	(allowFutureEntries: boolean): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(setAllowFutureEntries(allowFutureEntries));
+		saveFutureEntriesPref(allowFutureEntries);
+	};
 
-export const updateHideTitlesPref = (hideTitles: boolean): ThunkActionT => (dispatch): void => {
-	dispatch(setHideTitles(hideTitles));
-	saveHideTitlesPref(hideTitles);
-};
+export const updateHideTitlesPref =
+	(hideTitles: boolean): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(setHideTitles(hideTitles));
+		saveHideTitlesPref(hideTitles);
+	};
 
-export const updateFirstDayOfWeekPref = (firstDayOfWeek: Weekday | null): ThunkActionT => (
-	dispatch,
-): void => {
-	dispatch(setFirstDayOfWeek(firstDayOfWeek));
-	saveFirstDayOfWeekPref(firstDayOfWeek);
-};
+export const updateShowPhotosPref =
+	(showPhotos: boolean): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(setShowPhotos(showPhotos));
+		saveShowPhotosPref(showPhotos);
+	};
 
-export const updateThemePref = (themePref: ThemePref): ThunkActionT => (dispatch): void => {
-	// Apply theme to app
-	const theme = getThemeFromPref(themePref);
-	dispatch(setTheme(theme));
+export const updateFirstDayOfWeekPref =
+	(firstDayOfWeek: Weekday | null): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(setFirstDayOfWeek(firstDayOfWeek));
+		saveFirstDayOfWeekPref(firstDayOfWeek);
+	};
 
-	// Update theme preference in state and preferences file
-	dispatch(setThemePref(themePref));
-	saveThemePref(themePref);
-};
+export const updateThemePref =
+	(themePref: ThemePref): ThunkActionT =>
+	(dispatch): void => {
+		// Apply theme to app
+		const theme = getThemeFromPref(themePref);
+		dispatch(setTheme(theme));
+
+		// Update theme preference in state and preferences file
+		dispatch(setThemePref(themePref));
+		saveThemePref(themePref);
+	};

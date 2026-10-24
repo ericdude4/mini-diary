@@ -1,6 +1,5 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { combineReducers, configureStore, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { createLogger } from "redux-logger";
-import thunk, { ThunkAction, ThunkDispatch, ThunkMiddleware } from "redux-thunk";
 
 import appReducer from "./app/reducer";
 import { AppAction } from "./app/types";
@@ -25,13 +24,19 @@ const rootReducer = combineReducers({
 export type RootAction = AppAction | DiaryAction | ExportAction | FileAction | ImportAction;
 export type RootState = ReturnType<typeof rootReducer>;
 export type ThunkActionT = ThunkAction<void, RootState, void, RootAction>;
+export type AsyncThunkActionT = ThunkAction<Promise<void>, RootState, void, RootAction>;
 export type ThunkDispatchT = ThunkDispatch<RootState, void, RootAction>;
 
-// Set up middleware
-let middleware = [thunk as ThunkMiddleware<RootState, RootAction>];
-if (process.env.NODE_ENV !== "production") {
-	middleware = [...middleware, createLogger()];
-}
-
 // Create store
-export default createStore(rootReducer, applyMiddleware(...middleware));
+export default configureStore({
+	reducer: rootReducer,
+	middleware: getDefaultMiddleware => {
+		const middleware = getDefaultMiddleware({
+			// The state contains Moment objects (which are not serializable)
+			serializableCheck: false,
+			// The entries object is large, checking it for mutations on every action is slow
+			immutableCheck: false,
+		});
+		return import.meta.env.DEV ? middleware.concat(createLogger()) : middleware;
+	},
+});

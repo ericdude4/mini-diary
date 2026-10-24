@@ -69,6 +69,13 @@ const translationsEn: Translations = {
 	list: "List",
 	"write-something": "Write something",
 
+	// Photos
+	"photos-access-denied": "{appName} doesn't have access to your photos.",
+	"open-system-settings": "Open System Settings",
+	"previous-photo": "Previous photo",
+	"next-photo": "Next photo",
+	"photo-load-error": "Could not load this item",
+
 	// Search
 	clear: "Clear",
 	"no-results": "No results",
@@ -82,6 +89,7 @@ const translationsEn: Translations = {
 	"enable-spellcheck": "Check spelling",
 	"first-day-of-week": "First day of the week",
 	"hide-titles": "Hide titles",
+	"show-photos": "Show photos and videos from Apple Photos",
 	no: "No",
 	ok: "OK",
 	"reset-diary": "Reset diary",

@@ -1,6 +1,6 @@
 import { app } from "electron";
 
-import logger from "electron-log";
+import logger from "electron-log/main";
 
 import { Translations } from "../../shared/types";
 import translationsDe from "./translations/de";
@@ -36,7 +36,7 @@ const ALL_TRANSLATIONS: Record<string, Partial<Translations>> = {
 let translations: Partial<Translations>; // String translations for langNoRegion
 
 const FALLBACK_LANG = "en";
-let systemLang;
+let systemLang: string;
 let lang: string; // Language used by app (e.g. 'en-US'), used for dates/calendar
 let langNoRegion: string; // Language used by app without region string (e.g. 'en'), used for translations
 

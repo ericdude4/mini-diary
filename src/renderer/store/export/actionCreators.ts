@@ -1,12 +1,8 @@
-import { remote } from "electron";
-
-import logger from "electron-log";
+import logger from "electron-log/renderer";
 
 import { convertToMiniDiaryJson } from "../../files/export/json";
 import { convertToMd } from "../../files/export/md";
-import { convertToPdf } from "../../files/export/pdf";
 import { convertToDayOneTxt } from "../../files/export/txt";
-import { writeFile } from "../../files/fileAccess";
 import { ExportFormat, Entries } from "../../types";
 import { translations } from "../../utils/i18n";
 import { ThunkActionT } from "../store";
@@ -49,45 +45,60 @@ function setExportSuccess(): SetExportSuccessAction {
 	};
 }
 
+/**
+ * Convert entries to a PDF (rendered by the main process)
+ */
+async function convertToPdf(entries: Entries): Promise<Uint8Array> {
+	return window.api.files.convertMdToPdf(await convertToMd(entries));
+}
+
 // Thunks
 
-const exportToFile = (
-	converterFunc: (entries: Entries) => Promise<string | Buffer>,
-	exportFormat: ExportFormat,
-): ThunkActionT => async (dispatch, getState): Promise<void> => {
-	const fileExtension = fileExtensions[exportFormat];
-	const { canceled, filePath } = await remote.dialog.showSaveDialog({
-		defaultPath: `*/mini-diary-export.${fileExtension}`,
-		buttonLabel: translations.export,
-	});
-	if (!canceled && filePath) {
-		dispatch(setExportInProgress());
-		// Sort and convert entries to the specified format, then write them to disk
-		const { entries } = getState().file;
-		converterFunc(entries)
-			.then(entriesConverted => {
-				writeFile(filePath, entriesConverted);
+const exportToFile =
+	(
+		converterFunc: (entries: Entries) => Promise<string | Uint8Array>,
+		exportFormat: ExportFormat,
+	): ThunkActionT =>
+	async (dispatch, getState): Promise<void> => {
+		const fileExtension = fileExtensions[exportFormat];
+		const filePath = await window.api.files.selectSavePath(
+			`mini-diary-export.${fileExtension}`,
+			translations.export,
+		);
+		if (filePath) {
+			dispatch(setExportInProgress());
+			// Sort and convert entries to the specified format, then write them to disk
+			const { entries } = getState().file;
+			try {
+				await window.api.files.write(filePath, await converterFunc(entries));
 				dispatch(setExportSuccess());
-			})
-			.catch(err => {
+			} catch (err) {
 				logger.error("Error exporting diary file: ", err);
-				dispatch(setExportError(err.toString()));
-			});
-	}
-};
+				dispatch(setExportError(String(err)));
+			}
+		}
+	};
 
-export const exportToJsonMiniDiary = (): ThunkActionT => (dispatch): void => {
-	dispatch(exportToFile(convertToMiniDiaryJson, "jsonMiniDiary"));
-};
+export const exportToJsonMiniDiary =
+	(): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(exportToFile(convertToMiniDiaryJson, "jsonMiniDiary"));
+	};
 
-export const exportToMd = (): ThunkActionT => (dispatch): void => {
-	dispatch(exportToFile(convertToMd, "md"));
-};
+export const exportToMd =
+	(): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(exportToFile(convertToMd, "md"));
+	};
 
-export const exportToPdf = (): ThunkActionT => (dispatch): void => {
-	dispatch(exportToFile(convertToPdf, "pdf"));
-};
+export const exportToPdf =
+	(): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(exportToFile(convertToPdf, "pdf"));
+	};
 
-export const exportToTxtDayOne = (): ThunkActionT => (dispatch): void => {
-	dispatch(exportToFile(convertToDayOneTxt, "txtDayOne"));
-};
+export const exportToTxtDayOne =
+	(): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(exportToFile(convertToDayOneTxt, "txtDayOne"));
+	};

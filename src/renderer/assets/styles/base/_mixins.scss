@@ -1,9 +1,12 @@
+@use "sass:map";
+@use "variables";
+
 @mixin themify($property, $color-id, $pre-args: null, $post-args: null) {
 	// Loop over themes
-	@each $theme, $colors in $themes {
+	@each $theme, $colors in variables.$themes {
 		// Create selector for all themes
 		.theme-#{$theme} & {
-			#{$property}: $pre-args map-get($colors, $color-id) $post-args;
+			#{$property}: $pre-args map.get($colors, $color-id) $post-args;
 		}
 	}
 }

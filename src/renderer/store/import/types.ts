@@ -42,7 +42,4 @@ export interface SetImportSuccessAction extends Action {
 }
 
 export type ImportAction =
-	| SetImportFormatAction
-	| SetImportInProgressAction
-	| SetImportErrorAction
-	| SetImportSuccessAction;
+	SetImportFormatAction | SetImportInProgressAction | SetImportErrorAction | SetImportSuccessAction;

@@ -1,16 +1,19 @@
+// Style reset
+import "minireset.css/minireset.min.css";
 import "./assets/styles/styles.scss";
 
+import logger from "electron-log/renderer";
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
-import { initLogger } from "../shared/logger";
 import AppContainer from "./components/AppContainer";
 import initIpcListeners from "./electron/ipcRenderer/listeners";
 import store from "./store/store";
 import { initI18n } from "./utils/i18n";
 
-initLogger();
+// Log unhandled errors and promise rejections
+logger.errorHandler.startCatching({ showDialog: false });
 initIpcListeners();
 initI18n();
 
@@ -20,9 +23,8 @@ root.id = "root";
 document.body.appendChild(root);
 
 // Render React app inside root
-ReactDOM.render(
+createRoot(root).render(
 	<Provider store={store}>
 		<AppContainer />
 	</Provider>,
-	root,
 );

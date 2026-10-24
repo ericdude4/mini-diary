@@ -1,18 +1,17 @@
-import { EditorState } from "draft-js";
+import { LexicalEditor } from "lexical";
 import React, { ReactElement } from "react";
 
 import FormattingButtons from "../formatting-buttons/FormattingButtons";
 import WordCountWrapper from "../word-count/WordCountWrapper";
 
 export interface CustomProps {
-	onTextChange: (textEditorState: EditorState) => void;
-	textEditorState: EditorState;
+	textEditor: LexicalEditor | null;
 }
 
 type Props = CustomProps;
 
 export default function EditorToolbar(props: Props): ReactElement {
-	const { onTextChange, textEditorState } = props;
+	const { textEditor } = props;
 
 	return (
 		<div
@@ -22,7 +21,7 @@ export default function EditorToolbar(props: Props): ReactElement {
 			}}
 			role="none"
 		>
-			<FormattingButtons onTextChange={onTextChange} textEditorState={textEditorState} />
+			<FormattingButtons textEditor={textEditor} />
 			<WordCountWrapper />
 		</div>
 	);

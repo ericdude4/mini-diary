@@ -1,7 +1,5 @@
 import { MenuItemConstructorOptions } from "electron";
 
-import { is } from "electron-util";
-
 import { translate } from "../i18n/i18n";
 import getAppMenu from "./menus/app";
 import getEditMenu from "./menus/edit";
@@ -10,6 +8,8 @@ import getHelpMenu from "./menus/help";
 import getViewMenu from "./menus/view";
 import getWindowMenu from "./menus/window";
 import getPreferencesItem from "./preferencesItem";
+
+const isMacos = process.platform === "darwin";
 
 export default function getMenuTemplate(): MenuItemConstructorOptions[] {
 	const appMenu = getAppMenu();
@@ -20,7 +20,7 @@ export default function getMenuTemplate(): MenuItemConstructorOptions[] {
 	const viewMenu = getViewMenu();
 	const windowMenu = getWindowMenu();
 
-	if (is.macos) {
+	if (isMacos) {
 		// Add macOS-specific items
 		(editMenu.submenu as MenuItemConstructorOptions[]).push(
 			{ type: "separator" },
@@ -58,9 +58,9 @@ export default function getMenuTemplate(): MenuItemConstructorOptions[] {
 			},
 		];
 	} else {
-		// Add preferences under "File" (will be added under "Mini Diary" for macOS)
+		// Add preferences under "File" (will be added under the app menu for macOS)
 		(fileMenu.submenu as MenuItemConstructorOptions[]).push(preferencesItem);
 	}
 
-	return [...(is.macos ? [appMenu] : []), fileMenu, editMenu, viewMenu, windowMenu, helpMenu];
+	return [...(isMacos ? [appMenu] : []), fileMenu, editMenu, viewMenu, windowMenu, helpMenu];
 }

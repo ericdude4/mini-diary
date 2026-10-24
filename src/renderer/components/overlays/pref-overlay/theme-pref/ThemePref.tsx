@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 
 import { ThemePref } from "../../../../types";
 import { translations } from "../../../../utils/i18n";
-import { supportsNativeTheme } from "../../../../utils/native-theme";
+import { supportsNativeTheme } from "../../../../utils/theme";
 
 export interface StateProps {
 	themePref: ThemePref;

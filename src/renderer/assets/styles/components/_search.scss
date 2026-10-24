@@ -1,8 +1,34 @@
+@use "../base/mixins";
+@use "../base/variables";
+
+// Search bar and "today" button above the calendar
+.view-selector {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: variables.$spacing-abs-small;
+
+	.search-input {
+		height: variables.$sidebar-control-height;
+		padding: 0 variables.$spacing-abs-small;
+		font-size: 85%;
+	}
+
+	.button-invisible {
+		width: variables.$sidebar-control-height;
+		height: variables.$sidebar-control-height;
+
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+}
+
 .search-input-wrapper {
 	position: relative;
 	flex: 1;
 	width: 100%;
-	margin-right: $spacing-abs-small;
+	margin-right: variables.$spacing-abs-small;
 }
 
 .search-input {
@@ -25,16 +51,16 @@
 	.button {
 		width: 100%;
 		height: 100%;
-		padding: $spacing-abs-small $spacing-abs-medium;
-		font-weight: $font-weight-normal;
-		line-height: $line-height;
+		padding: variables.$spacing-abs-small variables.$spacing-abs-medium;
+		font-weight: variables.$font-weight-normal;
+		line-height: variables.$line-height;
 	}
 
 	.button-main * {
-		@include color("text-button");
+		@include mixins.color("text-button");
 	}
 }
 
 .search-result + .search-result {
-	margin-top: $spacing-abs-medium;
+	margin-top: variables.$spacing-abs-medium;
 }

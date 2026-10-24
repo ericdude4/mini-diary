@@ -5,7 +5,9 @@ import { ThunkDispatchT } from "../../../../store/store";
 import PasswordCreation, { DispatchProps } from "./PasswordCreation";
 
 const mapDispatchToProps = (dispatch: ThunkDispatchT): DispatchProps => ({
-	createEncryptedFile: (password: string): void => dispatch(createEncryptedFile(password)),
+	createEncryptedFile: (password: string): void => {
+		dispatch(createEncryptedFile(password));
+	},
 	testFileExists: (): void => dispatch(testFileExists()),
 });
 

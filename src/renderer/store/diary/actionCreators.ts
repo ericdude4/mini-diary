@@ -50,48 +50,60 @@ function setSearchResults(searchResults: string[]): SetSearchResultsAction {
 
 // Thunks
 
-export const search = (searchKey: string): ThunkActionT => (dispatch): void => {
-	dispatch(setSearchKey(searchKey));
-	const searchResults = searchIndex(searchKey);
-	dispatch(setSearchResults(searchResults));
-};
+export const search =
+	(searchKey: string): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(setSearchKey(searchKey));
+		const searchResults = searchIndex(searchKey);
+		dispatch(setSearchResults(searchResults));
+	};
 
-export const setDaySelectedNext = (): ThunkActionT => (dispatch, getState): void => {
-	const { app, diary } = getState();
-	const { allowFutureEntries } = app;
-	const { dateSelected } = diary;
-	const nextDay = parseDate(dateSelected).add(1, "days");
-	const today = createDate();
-	if (allowFutureEntries || nextDay.isSameOrBefore(today, "day")) {
-		dispatch(setDateSelected(nextDay));
-	}
-};
+export const setDaySelectedNext =
+	(): ThunkActionT =>
+	(dispatch, getState): void => {
+		const { app, diary } = getState();
+		const { allowFutureEntries } = app;
+		const { dateSelected } = diary;
+		const nextDay = parseDate(dateSelected).add(1, "days");
+		const today = createDate();
+		if (allowFutureEntries || nextDay.isSameOrBefore(today, "day")) {
+			dispatch(setDateSelected(nextDay));
+		}
+	};
 
-export const setDaySelectedPrevious = (): ThunkActionT => (dispatch, getState): void => {
-	const { dateSelected } = getState().diary;
-	const previousDay = parseDate(dateSelected).subtract(1, "days");
-	dispatch(setDateSelected(previousDay));
-};
+export const setDaySelectedPrevious =
+	(): ThunkActionT =>
+	(dispatch, getState): void => {
+		const { dateSelected } = getState().diary;
+		const previousDay = parseDate(dateSelected).subtract(1, "days");
+		dispatch(setDateSelected(previousDay));
+	};
 
-export const setDaySelectedToday = (): ThunkActionT => (dispatch): void => {
-	const today = createDate();
-	dispatch(setDateSelected(today));
-};
+export const setDaySelectedToday =
+	(): ThunkActionT =>
+	(dispatch): void => {
+		const today = createDate();
+		dispatch(setDateSelected(today));
+	};
 
-export const setMonthSelectedNext = (): ThunkActionT => (dispatch, getState): void => {
-	const { app, diary } = getState();
-	const { allowFutureEntries } = app;
-	const { dateSelected } = diary;
-	const today = createDate();
-	let newDateSelected = parseDate(dateSelected).add(1, "months");
-	if (!allowFutureEntries && newDateSelected.isAfter(today)) {
-		newDateSelected = today;
-	}
-	dispatch(setDateSelected(newDateSelected));
-};
+export const setMonthSelectedNext =
+	(): ThunkActionT =>
+	(dispatch, getState): void => {
+		const { app, diary } = getState();
+		const { allowFutureEntries } = app;
+		const { dateSelected } = diary;
+		const today = createDate();
+		let newDateSelected = parseDate(dateSelected).add(1, "months");
+		if (!allowFutureEntries && newDateSelected.isAfter(today)) {
+			newDateSelected = today;
+		}
+		dispatch(setDateSelected(newDateSelected));
+	};
 
-export const setMonthSelectedPrevious = (): ThunkActionT => (dispatch, getState): void => {
-	const { dateSelected } = getState().diary;
-	const previousMonth = parseDate(dateSelected).subtract(1, "months");
-	dispatch(setDateSelected(previousMonth));
-};
+export const setMonthSelectedPrevious =
+	(): ThunkActionT =>
+	(dispatch, getState): void => {
+		const { dateSelected } = getState().diary;
+		const previousMonth = parseDate(dateSelected).subtract(1, "months");
+		dispatch(setDateSelected(previousMonth));
+	};

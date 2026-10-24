@@ -1,17 +1,22 @@
 # NPM
 node_modules/
 
-# React bundle (Webpack)
-bundle/
+# Bundled app (electron-vite)
+out/
+
+# Diary and user data used when running the app from source (`yarn start`)
+/mini-diary.txt
+/.mini-diary.txt.*.tmp
+/.dev-user-data/
+
+# Compiled Apple Photos helper
+native/photos-helper/bin/
 
 # Packaged app (electron-builder)
 dist/
 
 # Credentials
 .env
-
-# Apple provisioning profile
-*.provisionprofile
 
 # Generated website assets
 website/index.js

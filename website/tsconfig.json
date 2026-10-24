@@ -1,3 +1,10 @@
 {
-	"extends": "../tsconfig.json"
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"lib": ["ES2023", "DOM"],
+		"noEmit": false,
+		"sourceMap": true,
+		"types": []
+	},
+	"include": ["index.ts"]
 }

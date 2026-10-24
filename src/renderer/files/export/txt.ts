@@ -29,7 +29,6 @@ export async function convertToDayOneTxt(entries: Entries): Promise<string> {
 			txt += `${title}\n\n`; // Title
 		}
 		if (text) {
-			// eslint-disable-next-line no-await-in-loop
 			const textTxt = await mdToTxt(text);
 			txt += `${textTxt}\n\n`; // Text
 		}

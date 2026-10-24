@@ -6,6 +6,31 @@ export interface JsonObject {
 export type JsonArray = Array<JsonValue>;
 export type JsonValue = string | number | boolean | null | JsonArray | JsonObject;
 
+// IPC
+
+// Return value of synchronous IPC calls (errors can't be thrown across processes)
+export type SyncResult<T> = { value: T; error?: undefined } | { value?: undefined; error: string };
+
+export type DiaryReadResult =
+	| { content: string; error?: undefined }
+	| { content?: undefined; error: string; isWrongPassword: boolean };
+
+// Photos (from Apple Photos)
+
+export const PHOTO_PROTOCOL = "diary-photo";
+
+export type PhotosStatus =
+	"authorized" | "limited" | "denied" | "restricted" | "notDetermined" | "unavailable";
+
+export interface PhotoAsset {
+	id: string;
+	type: "image" | "video";
+	date: number; // Timestamp in ms
+	duration: number; // Seconds (0 for photos)
+	width: number;
+	height: number;
+}
+
 // Overlay
 
 export type OverlayType = "none" | "go-to-date" | "import" | "preferences" | "statistics";
@@ -81,6 +106,13 @@ export interface Translations {
 	list: string;
 	"write-something": string;
 
+	// Photos
+	"photos-access-denied": string;
+	"open-system-settings": string;
+	"previous-photo": string;
+	"next-photo": string;
+	"photo-load-error": string;
+
 	// Search
 	clear: string;
 	"no-results": string;
@@ -94,6 +126,7 @@ export interface Translations {
 	"enable-spellcheck": string;
 	"first-day-of-week": string;
 	"hide-titles": string;
+	"show-photos": string;
 	no: string;
 	ok: string;
 	"reset-diary": string;
