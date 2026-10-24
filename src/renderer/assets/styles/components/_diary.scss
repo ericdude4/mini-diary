@@ -8,7 +8,7 @@
 	.sidebar {
 		display: flex;
 		flex-direction: column;
-		width: 7 * variables.$input-height;
+		width: 7 * variables.$calendar-day-size;
 	}
 
 	.editor {
@@ -34,7 +34,9 @@
 
 	@media (min-width: variables.$screen-tablet + 1px) {
 		justify-content: center;
-		padding: variables.$spacing-rel-large;
+
+		// Leave room for the window buttons at the top
+		padding: variables.$header-height variables.$spacing-abs-large variables.$spacing-abs-large;
 
 		.sidebar,
 		.editor {
@@ -43,11 +45,7 @@
 
 		.editor {
 			max-width: variables.$editor-max-width;
-			margin-left: variables.$spacing-rel-large;
+			margin-left: variables.$spacing-abs-large;
 		}
-	}
-
-	@media (min-width: variables.$screen-large) {
-		padding: variables.$spacing-rel-medium;
 	}
 }

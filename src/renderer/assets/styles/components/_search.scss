@@ -1,6 +1,29 @@
 @use "../base/mixins";
 @use "../base/variables";
 
+// Search bar and "today" button above the calendar
+.view-selector {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: variables.$spacing-abs-small;
+
+	.search-input {
+		height: variables.$sidebar-control-height;
+		padding: 0 variables.$spacing-abs-small;
+		font-size: 85%;
+	}
+
+	.button-invisible {
+		width: variables.$sidebar-control-height;
+		height: variables.$sidebar-control-height;
+
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+}
+
 .search-input-wrapper {
 	position: relative;
 	flex: 1;

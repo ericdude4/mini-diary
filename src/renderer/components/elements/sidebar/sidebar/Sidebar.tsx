@@ -1,6 +1,7 @@
 import React, { PureComponent, ReactNode } from "react";
 
 import CalendarContainer from "../calendar/CalendarContainer";
+import DayPhotosContainer from "../day-photos/DayPhotosContainer";
 import SearchBarContainer from "../search-bar/SearchBarContainer";
 import SearchResultsContainer from "../search-results/SearchResultsContainer";
 
@@ -16,7 +17,14 @@ export default class Sidebar extends PureComponent<Props> {
 		return (
 			<div className="sidebar">
 				<SearchBarContainer />
-				{searchKey === "" ? <CalendarContainer /> : <SearchResultsContainer />}
+				{searchKey === "" ? (
+					<>
+						<CalendarContainer />
+						<DayPhotosContainer />
+					</>
+				) : (
+					<SearchResultsContainer />
+				)}
 			</div>
 		);
 	}

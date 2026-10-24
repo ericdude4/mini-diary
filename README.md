@@ -28,6 +28,8 @@ When run from source, the app keeps its data inside the project directory, separ
 
 After cloning the repo and installing the dependencies, run `yarn dist`. A native Apple Silicon app (ad-hoc signed, `.dmg` and `.zip`) can be found in the `dist` folder. Builds are local only: there is no auto-updater and no notarization.
 
+Showing photos from Apple Photos (Preferences → Diary entries) uses a small Swift helper in `native/photos-helper`, which is compiled automatically by `yarn start` and `yarn build` (requires Xcode or the Xcode command line tools).
+
 All dependencies are bundled into the app by electron-vite, so they are listed under `devDependencies`.
 
 ### Tests

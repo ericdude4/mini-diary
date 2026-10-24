@@ -3,6 +3,7 @@ import {
 	saveFirstDayOfWeekPref,
 	saveFutureEntriesPref,
 	saveHideTitlesPref,
+	saveShowPhotosPref,
 	saveThemePref,
 	saveSpellcheckPref,
 } from "../../files/preferences/preferences";
@@ -13,6 +14,7 @@ import {
 	SET_ALLOW_FUTURE_ENTRIES,
 	SET_ENABLE_SPELLCHECK,
 	SET_HIDE_TITLES,
+	SET_SHOW_PHOTOS,
 	SET_FIRST_DAY_OF_WEEK,
 	SET_OVERLAY,
 	SET_THEME,
@@ -24,6 +26,7 @@ import {
 	SetThemeAction,
 	SetThemePrefAction,
 	SetHideTitlesAction,
+	SetShowPhotosAction,
 } from "./types";
 
 // Action creators
@@ -51,6 +54,15 @@ function setHideTitles(hideTitles: boolean): SetHideTitlesAction {
 		type: SET_HIDE_TITLES,
 		payload: {
 			hideTitles,
+		},
+	};
+}
+
+function setShowPhotos(showPhotos: boolean): SetShowPhotosAction {
+	return {
+		type: SET_SHOW_PHOTOS,
+		payload: {
+			showPhotos,
 		},
 	};
 }
@@ -121,6 +133,13 @@ export const updateHideTitlesPref =
 	(dispatch): void => {
 		dispatch(setHideTitles(hideTitles));
 		saveHideTitlesPref(hideTitles);
+	};
+
+export const updateShowPhotosPref =
+	(showPhotos: boolean): ThunkActionT =>
+	(dispatch): void => {
+		dispatch(setShowPhotos(showPhotos));
+		saveShowPhotosPref(showPhotos);
 	};
 
 export const updateFirstDayOfWeekPref =

@@ -5,6 +5,7 @@ import { supportsNativeTheme } from "../../utils/theme";
 const DEFAULT_ALLOW_FUTURE_ENTRIES = false;
 const DEFAULT_FIRST_DAY_OF_WEEK = null; // Let the system locale determine the first day of the week
 const DEFAULT_HIDE_TITLES = false;
+const DEFAULT_SHOW_PHOTOS = false;
 const DEFAULT_ENABLE_SPELLCHECK = true;
 const DEFAULT_THEME_PREF: ThemePref = "light";
 
@@ -68,6 +69,23 @@ export function loadHideTitlesPref(): boolean {
  */
 export function saveHideTitlesPref(hideTitles: boolean): void {
 	setPref("hideTitles", hideTitles);
+}
+
+// Photos
+
+/**
+ * Return the preference for whether photos and videos from Apple Photos are shown for the selected
+ * day
+ */
+export function loadShowPhotosPref(): boolean {
+	return getPref("showPhotos", DEFAULT_SHOW_PHOTOS);
+}
+
+/**
+ * Update the preference for showing photos
+ */
+export function saveShowPhotosPref(showPhotos: boolean): void {
+	setPref("showPhotos", showPhotos);
 }
 
 // Spellcheck

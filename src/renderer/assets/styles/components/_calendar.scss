@@ -1,23 +1,25 @@
 @use "../base/mixins";
 @use "../base/variables";
 
-.view-selector {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 1.5 * variables.$spacing-abs-large;
-}
-
 .calendar-nav {
 	display: flex;
 	align-items: center;
+	margin-bottom: 4px;
 
 	.month-name {
 		flex: 1;
+		font-size: 110%;
 		text-align: center;
 	}
 
-	.button-today {
-		width: variables.$input-height;
+	.button-invisible {
+		width: variables.$sidebar-control-height;
+		height: variables.$sidebar-control-height;
+
+		svg {
+			width: 18px;
+			height: 18px;
+		}
 	}
 }
 
@@ -32,17 +34,17 @@
 
 .rdp-weeks {
 	display: grid;
-	grid-template-rows: repeat(6, variables.$input-height);
+	grid-auto-rows: variables.$calendar-day-size;
 }
 
 .rdp-week,
 .rdp-weekdays {
 	display: grid;
-	grid-template-columns: repeat(7, variables.$input-height);
+	grid-template-columns: repeat(7, variables.$calendar-day-size);
 }
 
 .rdp-weekdays {
-	height: variables.$input-height;
+	height: 24px;
 }
 
 .rdp-weekday {
@@ -56,6 +58,7 @@
 
 .rdp-day {
 	display: flex;
+	font-size: 90%;
 	margin: 1px;
 	padding: 0;
 	border-radius: 50%;

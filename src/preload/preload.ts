@@ -3,7 +3,15 @@ import "electron-log/preload";
 
 import { contextBridge, FileFilter, ipcRenderer, MessageBoxOptions } from "electron";
 
-import { DiaryReadResult, JsonValue, OverlayType, SyncResult, Translations } from "../shared/types";
+import {
+	DiaryReadResult,
+	JsonValue,
+	OverlayType,
+	PhotoAsset,
+	PhotosStatus,
+	SyncResult,
+	Translations,
+} from "../shared/types";
 
 /**
  * Call a synchronous IPC listener in the main process. Rethrow errors which occurred there
@@ -106,6 +114,14 @@ const api = {
 		write: (filePath: string, content: string | Uint8Array): Promise<void> =>
 			ipcRenderer.invoke("writeFile", filePath, content),
 		convertMdToPdf: (md: string): Promise<Uint8Array> => ipcRenderer.invoke("convertMdToPdf", md),
+	},
+
+	photos: {
+		getStatus: (): Promise<PhotosStatus> => ipcRenderer.invoke("getPhotosStatus"),
+		authorize: (): Promise<PhotosStatus> => ipcRenderer.invoke("authorizePhotos"),
+		list: (start: number, end: number): Promise<PhotoAsset[]> =>
+			ipcRenderer.invoke("listPhotos", start, end),
+		openPrivacySettings: (): Promise<void> => ipcRenderer.invoke("openPhotosPrivacySettings"),
 	},
 
 	window: {

@@ -18,9 +18,9 @@
 		"node": ">=22.12.0"
 	},
 	"scripts": {
-		"start": "electron-vite dev",
-		"build": "electron-vite build",
-		"dist": "electron-vite build && electron-builder --mac --arm64",
+		"start": "sh scripts/build-photos-helper.sh && electron-vite dev",
+		"build": "sh scripts/build-photos-helper.sh && electron-vite build",
+		"dist": "yarn build && electron-builder --mac --arm64",
 		"website:start": "yarn website:build:css && tsc --project ./website --watch & serve ./website --listen 3000",
 		"website:build": "yarn website:build:css && tsc --project ./website",
 		"website:build:css": "cp ./node_modules/minireset.css/minireset.min.css ./website/styles/",
@@ -103,6 +103,12 @@
 			"out/**/*"
 		],
 		"publish": null,
+		"extraResources": [
+			{
+				"from": "native/photos-helper/bin/photos-helper",
+				"to": "photos-helper"
+			}
+		],
 		"mac": {
 			"target": [
 				"dmg",
@@ -111,6 +117,9 @@
 			"category": "public.app-category.lifestyle",
 			"identity": "-",
 			"darkModeSupport": true,
+			"extendInfo": {
+				"NSPhotoLibraryUsageDescription": "Mini Diary shows the photos and videos you took on the day you are viewing."
+			},
 			"electronLanguages": [
 				"de",
 				"de_AT",

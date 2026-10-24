@@ -10,11 +10,14 @@ import { initI18n } from "./i18n/i18n";
 import initIpcListeners from "./ipcMain/listeners";
 import { lock, sendThemeUpdated } from "./ipcMain/senders";
 import { buildMenu } from "./menu/menu";
+import { handlePhotoProtocol, registerPhotoProtocolScheme } from "./photos/photoProtocol";
+import { stopPhotosHelper } from "./photos/photosHelper";
 import { getWindow, setWindow } from "./window";
 
 initDevMode();
 initLogger();
 electronDebug();
+registerPhotoProtocolScheme();
 contextMenu({
 	showCopyImage: false,
 	showSearchWithGoogle: false,
@@ -65,6 +68,10 @@ async function createWindow(): Promise<BrowserWindow> {
 	return win;
 }
 
+app.on("will-quit", (): void => {
+	stopPhotosHelper();
+});
+
 // Quit app when all of its windows have been closed
 app.on("window-all-closed", (): void => {
 	app.quit();
@@ -85,6 +92,7 @@ app.on("activate", async (): Promise<void> => {
 	initI18n();
 	buildMenu();
 	initIpcListeners();
+	handlePhotoProtocol();
 
 	// Lock diary when screen is locked
 	if (process.platform === "darwin" || process.platform === "win32") {

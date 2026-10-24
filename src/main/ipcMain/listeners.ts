@@ -9,6 +9,7 @@ import {
 	IpcMainInvokeEvent,
 	MessageBoxOptions,
 	nativeTheme,
+	shell,
 } from "electron";
 import logger from "electron-log/main";
 
@@ -30,6 +31,7 @@ import { hashPassword } from "../files/hashPassword";
 import { convertMdToPdf } from "../files/pdf";
 import { getPref, saveDirPref, setPref } from "../files/preferences";
 import { getTranslations, getUsedLang, translate } from "../i18n/i18n";
+import { authorizePhotos, getPhotosStatus, listPhotos } from "../photos/photosHelper";
 import { disableMenuItems, enableMenuItems } from "../menu/menu";
 
 // Paths the user has selected in a save dialog. The renderer process may only write to these
@@ -233,6 +235,18 @@ export default function initIpcListeners(): void {
 	});
 
 	ipcMain.handle("convertMdToPdf", (_, md: string): Promise<Buffer> => convertMdToPdf(md));
+
+	// Photos
+
+	ipcMain.handle("getPhotosStatus", () => getPhotosStatus());
+
+	ipcMain.handle("authorizePhotos", () => authorizePhotos());
+
+	ipcMain.handle("listPhotos", (_, start: number, end: number) => listPhotos(start, end));
+
+	ipcMain.handle("openPhotosPrivacySettings", (): Promise<void> =>
+		shell.openExternal("x-apple.systempreferences:com.apple.preference.security?Privacy_Photos"),
+	);
 
 	// Window
 
