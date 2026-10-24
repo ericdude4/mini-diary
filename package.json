@@ -1,6 +1,6 @@
 {
 	"name": "mini-diary",
-	"productName": "Mini Diary",
+	"productName": "Journal",
 	"version": "4.0.0",
 	"description": "Simple and secure journal app",
 	"type": "module",
@@ -118,7 +118,7 @@
 			"identity": "-",
 			"darkModeSupport": true,
 			"extendInfo": {
-				"NSPhotoLibraryUsageDescription": "Mini Diary shows the photos and videos you took on the day you are viewing."
+				"NSPhotoLibraryUsageDescription": "Journal shows the photos and videos you took on the day you are viewing."
 			},
 			"electronLanguages": [
 				"de",

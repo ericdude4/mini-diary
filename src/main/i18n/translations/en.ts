@@ -70,7 +70,7 @@ const translationsEn: Translations = {
 	"write-something": "Write something",
 
 	// Photos
-	"photos-access-denied": "Mini Diary doesn't have access to your photos.",
+	"photos-access-denied": "{appName} doesn't have access to your photos.",
 	"open-system-settings": "Open System Settings",
 	"previous-photo": "Previous photo",
 	"next-photo": "Next photo",

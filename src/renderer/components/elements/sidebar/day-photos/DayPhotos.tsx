@@ -5,7 +5,8 @@ import React, { ReactElement, useCallback, useEffect, useState } from "react";
 
 import { PhotoAsset, PhotosStatus } from "../../../../../shared/types";
 import { toIndexDate } from "../../../../utils/dateFormat";
-import { translations } from "../../../../utils/i18n";
+import { productName as appName } from "../../../../../../package.json";
+import { translate, translations } from "../../../../utils/i18n";
 import { formatDuration, getPhotoUrl } from "../../../../utils/photos";
 import PhotoViewer from "./PhotoViewer";
 
@@ -95,7 +96,7 @@ export default function DayPhotos(props: Props): ReactElement | null {
 	if (!hasAccess) {
 		return (
 			<div className="day-photos day-photos-message">
-				<p className="text-faded">{translations["photos-access-denied"]}</p>
+				<p className="text-faded">{translate("photos-access-denied", { appName })}</p>
 				<button
 					type="button"
 					className="button button-main"

@@ -4,7 +4,7 @@ import { app, BrowserWindow, nativeTheme, powerMonitor, shell } from "electron";
 import contextMenu from "electron-context-menu";
 import electronDebug from "electron-debug";
 
-import { initDevMode } from "./devMode";
+import { initUserDataPath } from "./devMode";
 import { initLogger } from "./logger";
 import { initI18n } from "./i18n/i18n";
 import initIpcListeners from "./ipcMain/listeners";
@@ -14,7 +14,7 @@ import { handlePhotoProtocol, registerPhotoProtocolScheme } from "./photos/photo
 import { stopPhotosHelper } from "./photos/photosHelper";
 import { getWindow, setWindow } from "./window";
 
-initDevMode();
+initUserDataPath();
 initLogger();
 electronDebug();
 registerPhotoProtocolScheme();
